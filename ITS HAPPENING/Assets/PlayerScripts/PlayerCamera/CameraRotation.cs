@@ -8,6 +8,15 @@ public class CameraRotation : MonoBehaviour
 
     public GameObject player;
     private PlayerMovement playerMovement;
+    Vector3 playerPos;
+    Vector3 cameraPos;
+    Vector3 newPos;
+    float camMovementInterpolant = 0.5f;
+
+    Quaternion playerRotation;
+    Quaternion camRotation;
+    Quaternion newRotation;
+    float camRotationInterpolant = 0.5f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -19,22 +28,28 @@ public class CameraRotation : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         applyCamPos();
         Rotation();
     }
-    
-    //Applies the cam rotation calculated in PlayerMovement to the camera.
+
+    //Uses both the cam and player rotation to linearly interpolate between the 2 and apply this new rotation .
     void Rotation()
     {
-        transform.rotation = playerMovement.returnRotation();
+        playerRotation = playerMovement.returnRotation();
+        camRotation = transform.rotation;
+        newRotation = Quaternion.Lerp(camRotation, playerRotation, camRotationInterpolant);
+        transform.rotation = newRotation;
     }
 
-    //Applies the cam position calculated in PlayerMovement to the camera.
+    //Uses both the cam and player position to linearly interpolate between the 2 and apply this new position.
     void applyCamPos()
     {
-        transform.position = playerMovement.returnPos();
+        playerPos = playerMovement.returnPos();
+        cameraPos = transform.position;
+        newPos = Vector3.Lerp(cameraPos, playerPos, camMovementInterpolant);
+        transform.position = newPos;
     }
     
     
