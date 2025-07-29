@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - Floor
+  - Planet
   layers:
   - Default
   - TransparentFX
