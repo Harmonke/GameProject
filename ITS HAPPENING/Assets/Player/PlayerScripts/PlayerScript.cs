@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
-    public GameObject cam;
-    private CameraRotation camRotation;
+    
+    CameraRotation camRotation;
     AlignRotationToPlanet alignRotation;
     PlayerMovement playerMovement;
     Gravity gravity;
@@ -14,9 +14,9 @@ public class PlayerScript : MonoBehaviour
     void Start()
     {
         //Finds GameObject in unity with the "MainCamera" tag and assigns it to the cam field.
-        cam = GameObject.FindWithTag("MainCamera");
+        
         //Finds the CameraRotation object/script within the Camera object.
-        camRotation = cam.GetComponent<CameraRotation>();
+        camRotation = GetComponent<CameraRotation>();
         alignRotation = GetComponent<AlignRotationToPlanet>();
         playerMovement = GetComponent<PlayerMovement>();
         gravity = GetComponent<Gravity>();
@@ -34,8 +34,8 @@ public class PlayerScript : MonoBehaviour
 
 
 
-    private float playerYRotation;
-    private float playerXRotation;
+    [SerializeField] private float playerYRotation;
+    [SerializeField] private float playerXRotation;
 
     //LateUpdate() is called once per frame, just like Update(), but after all Update() calls have finished.
     void LateUpdate()
