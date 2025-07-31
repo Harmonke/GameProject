@@ -45,23 +45,38 @@ public class PlayerScript : MonoBehaviour
         
     }
 
-    [SerializeField]
-    Quaternion newRotation;
+    
+    [SerializeField] Quaternion newPlanetRotation;
+    [SerializeField] Quaternion newSpaceRotation;
     void getNewRotation()
     {
-        newRotation = alignRotation.returnNewRotation() * Quaternion.Euler(0f, playerYRotation, 0f);
+
+        newSpaceRotation = Quaternion.Euler(0f, playerYRotation, 0f);
+        newPlanetRotation = alignRotation.returnNewRotation() * Quaternion.Euler(0f, playerYRotation, 0f);
+        
+        
     }
 
     //Returns rotation to be used in CameraRotation file.
     public Quaternion returnRotation()
     {
-        return newRotation;
+        return newPlanetRotation;
     }
 
     //Applies the calculated rotation.
     void applyRotation()
     {
-        transform.rotation = newRotation;
+        if (gravity.returnDeepSpace())
+        {
+            camRotation.freeLook();
+            transform.rotation = newSpaceRotation;
+        }
+        else if (!gravity.returnDeepSpace())
+        {
+            camRotation.defaultLook();
+            transform.rotation = newPlanetRotation;
+        }
+        
     }
 
     //Returns playerposition to be used in CameraRotation.

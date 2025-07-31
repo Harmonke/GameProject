@@ -1,3 +1,5 @@
+using System;
+using Unity.Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -5,17 +7,42 @@ public class Gravity : MonoBehaviour
 {
     public GameObject findPlanet;
     private Planet planet;
-    
-
+    public GameObject Brain;
+    private CinemachineBrain CBrain;
+    public GameObject head;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         //Finds GameObject in unity with the "Planet" tag and assigns it to the findPlanet field.
-        findPlanet = GameObject.FindWithTag("Planet");
+        findPlanet = GameObject.FindWithTag("DeepSpace");
         //Finds the Planet object/script within the Planet object.
         planet = findPlanet.GetComponent<Planet>();
+        Brain = GameObject.FindWithTag("CinemachineBrain");
+        CBrain = Brain.GetComponent<CinemachineBrain>();
+        head = GameObject.FindWithTag("Head");
+    }
+
+    GameObject currentPlanet;
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("GravityCollider"))
+        {
+            currentPlanet = other.gameObject;
+            planet = currentPlanet.GetComponentInParent<Planet>();
+            CBrain.WorldUpOverride = head.transform; 
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("GravityCollider"))
+        {
+            currentPlanet = other.gameObject;
+            planet = currentPlanet.GetComponentInParent<Planet>();
+            CBrain.WorldUpOverride = head.transform; 
+        }   
     }
 
     // Update is called once per frame
@@ -54,7 +81,7 @@ public class Gravity : MonoBehaviour
         surfacePoint = planetPosition + coreToPlayerDirection * planetRadius;
 
         groundPlayerDistance = Vector3.Distance(surfacePoint, playerPosition);
-        gravityForce = gravityConstant / Mathf.Pow(groundPlayerDistance, 0.5f);
+        gravityForce = gravityConstant / Mathf.Pow(groundPlayerDistance, 0.00001f);
         gravity = -coreToPlayerDirection * gravityForce;
 
     }
@@ -68,6 +95,10 @@ public class Gravity : MonoBehaviour
     {
         return planetPlayerDistance;
     }
-    
+
+    public Boolean returnDeepSpace()
+    {
+        return planet.returnDeepSpace();
+    }
 
 }

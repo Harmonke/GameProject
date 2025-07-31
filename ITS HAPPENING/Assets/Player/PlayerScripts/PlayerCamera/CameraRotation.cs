@@ -15,12 +15,14 @@ public class CameraRotation : MonoBehaviour
 
     public GameObject Cam;
     private CinemachinePanTilt panTilt;
+    public Gravity gravity;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         Cam = GameObject.FindWithTag("MainCamera");
         panTilt = Cam.GetComponent<CinemachinePanTilt>();
+        gravity = GetComponent<Gravity>();
     }
 
     //LateUpdate() is called once per frame, just like Update(), but after all Update() calls have finished. 
@@ -53,12 +55,23 @@ public class CameraRotation : MonoBehaviour
         playerXRotation = panTilt.TiltAxis.Value;
     }
 
-    
+    public void freeLook()
+    {
+        panTilt.TiltAxis.Range = new Vector2(-180f, 180f);
+        panTilt.TiltAxis.Wrap = true;
+    }
+
+    public void defaultLook()
+    {
+        panTilt.TiltAxis.Range = new Vector2(-70f, 70f);
+        panTilt.TiltAxis.Wrap = false;
+    }
+
 
     //Returns calculated Y rotation to be used in PlayerMovement.
     public float returnYRotation()
     {
-         
+
         return playerYRotation;
     }
 

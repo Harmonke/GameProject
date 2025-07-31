@@ -7,6 +7,9 @@ TagManager:
   - Floor
   - Planet
   - Head
+  - GravityCollider
+  - DeepSpace
+  - CinemachineBrain
   layers:
   - Default
   - TransparentFX

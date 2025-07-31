@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Planet : MonoBehaviour, PlanetInterface
+public class Planet : MonoBehaviour
 {
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -21,10 +21,10 @@ public class Planet : MonoBehaviour, PlanetInterface
         return transform.position;
     }
 
+    [SerializeField] float gravityConstant;
     //Returns the planet's gravity constant.
     public float returnGravityConstant()
     {
-        float gravityConstant = 98.1f;
         return gravityConstant;
     }
 
@@ -32,5 +32,12 @@ public class Planet : MonoBehaviour, PlanetInterface
     public float returnRadius()
     {
         return transform.localScale.x;
+    }
+
+    [SerializeField] bool deepSpace;
+
+    public bool returnDeepSpace()
+    {
+        return deepSpace;
     }
 }
