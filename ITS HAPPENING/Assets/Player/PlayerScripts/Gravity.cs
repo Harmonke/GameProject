@@ -3,52 +3,47 @@ using UnityEngine;
 
 public class Gravity : MonoBehaviour
 {
-    public GameObject findPlanet;
-    private Planet planet;
     
+    GetPlanet getPlanet;
+
 
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        //Finds GameObject in unity with the "Planet" tag and assigns it to the findPlanet field.
-        findPlanet = GameObject.FindWithTag("Planet");
-        //Finds the Planet object/script within the Planet object.
-        planet = findPlanet.GetComponent<Planet>();
+        getPlanet = GetComponent<GetPlanet>();
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void LateUpdate()
     {
-        GroundPlayerDistance();
         planetGravity();
     }
+
+
+
+
 
 
     Vector3 planetPosition;
     Vector3 playerPosition;
     Vector3 planetPlayerDistance;
-    void GroundPlayerDistance()
-    {
-        planetPosition = planet.returnPosition();
-        playerPosition = transform.position;
-        planetPlayerDistance = playerPosition - planetPosition;
-    }
-
     float planetRadius;
     float gravityConstant;
     Vector3 surfacePoint;
     float groundPlayerDistance;
     float gravityForce;
-    Vector3 gravity;
+    [SerializeField] Vector3 gravity;
 
     //Calculates the planets surface position to use it to use the difference between the player and surface position along with the planets gravity constant to calc gravity.
     void planetGravity()
     {
-
-        planetRadius = planet.returnRadius();
-        gravityConstant = planet.returnGravityConstant();
+        planetPlayerDistance = getPlanet.PlanetPlayerDistance();
+        playerPosition = transform.position;
+        planetPosition = getPlanet.PlanetPosition();
+        planetRadius = getPlanet.PlanetRadius();
+        gravityConstant = getPlanet.PlanetGravityConstant();
 
         Vector3 coreToPlayerDirection = planetPlayerDistance.normalized;
         surfacePoint = planetPosition + coreToPlayerDirection * planetRadius;
@@ -64,10 +59,7 @@ public class Gravity : MonoBehaviour
         return gravity;
     }
 
-    public Vector3 returnPlanetPlayerDistance()
-    {
-        return planetPlayerDistance;
-    }
+    
     
 
 }

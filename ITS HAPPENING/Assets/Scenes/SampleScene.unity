@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 15303, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -239,6 +239,37 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 1
+--- !u!1 &521958515
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 521958516}
+  m_Layer: 0
+  m_Name: Head
+  m_TagString: Head
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &521958516
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 521958515}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1937401177}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &592516744 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 161947cddbdbb5249b5286aaf09c400b, type: 3}
@@ -607,6 +638,7 @@ MonoBehaviour:
   player: {fileID: 1937401172}
   playerYRotation: 0
   playerXRotation: 0
+  head: {fileID: 0}
   playerRotation: 0
 --- !u!1001 &1677027229
 PrefabInstance:
@@ -704,8 +736,9 @@ GameObject:
   - component: {fileID: 1937401175}
   - component: {fileID: 1937401174}
   - component: {fileID: 1937401178}
-  - component: {fileID: 1937401181}
+  - component: {fileID: 1937401184}
   - component: {fileID: 1937401180}
+  - component: {fileID: 1937401181}
   - component: {fileID: 1937401182}
   - component: {fileID: 1937401183}
   m_Layer: 0
@@ -799,11 +832,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1937401172}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.58, y: 46.9, z: -4.1183815}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.58, y: 46.9, z: -3.38}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 521958516}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &1937401178
@@ -845,7 +879,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 610fcc529b43c2f4ebcc38ebc95ee1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  findPlanet: {fileID: 592516744}
+  gravity: {x: 0, y: 0, z: 0}
 --- !u!114 &1937401181
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -876,10 +910,8 @@ MonoBehaviour:
   horizontalInput: 0
   verticalInput: 0
   movementSpeed: 100
-  gravity: {x: 0, y: 0, z: 0}
   jumpForce: 0
   onGround: 0
-  baseRotation: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &1937401183
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -896,13 +928,27 @@ MonoBehaviour:
   newRotation: {x: 0, y: 0, z: 0, w: 0}
   movementForce: {x: 0, y: 0, z: 0}
   jumpForce: {x: 0, y: 0, z: 0}
+--- !u!114 &1937401184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1937401172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eec16826fb33d384080b036691e815be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  findPlanet: {fileID: 0}
+  planetPlayerDistance: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 410087041}
   - {fileID: 1075727713}
-  - {fileID: 1937401177}
   - {fileID: 1113717563}
   - {fileID: 1677027229}
   - {fileID: 611696709}
+  - {fileID: 1937401177}

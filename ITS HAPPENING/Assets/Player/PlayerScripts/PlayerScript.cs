@@ -9,7 +9,7 @@ public class PlayerScript : MonoBehaviour
     PlayerMovement playerMovement;
     Gravity gravity;
     Rigidbody m_Rigidbody;
-
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -26,27 +26,28 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        
         applyMovement();
-        getNewRotation();
-        applyRotation();
         applyGravity();
+        
     }
 
-
-
     private float playerYRotation;
-    private float playerXRotation;
 
     //LateUpdate() is called once per frame, just like Update(), but after all Update() calls have finished.
     void LateUpdate()
     {
         playerYRotation = camRotation.returnYRotation();
-        playerXRotation = camRotation.returnXRotation();
-        
+        getNewRotation();
+        applyRotation();
+        //applyHeadRotation();
     }
+
+    
 
     [SerializeField]
     Quaternion newRotation;
+    //Adds the alignedRotation and the playerYRotation together.
     void getNewRotation()
     {
         newRotation = alignRotation.returnNewRotation() * Quaternion.Euler(0f, playerYRotation, 0f);
@@ -61,14 +62,9 @@ public class PlayerScript : MonoBehaviour
     //Applies the calculated rotation.
     void applyRotation()
     {
-        transform.rotation = newRotation;
+        m_Rigidbody.MoveRotation(newRotation);
     }
 
-    //Returns playerposition to be used in CameraRotation.
-    public Vector3 returnPos()
-    {
-        return new Vector3(m_Rigidbody.position.x, m_Rigidbody.position.y + 0.3f, m_Rigidbody.position.z);
-    }
 
     [SerializeField]
     Vector3 movementForce;
@@ -83,6 +79,7 @@ public class PlayerScript : MonoBehaviour
         m_Rigidbody.AddForce(jumpForce, ForceMode.Impulse);
     }
 
+    //Applies gravity.
     void applyGravity()
     {
         m_Rigidbody.AddForce(gravity.returnGravity(), ForceMode.Force);

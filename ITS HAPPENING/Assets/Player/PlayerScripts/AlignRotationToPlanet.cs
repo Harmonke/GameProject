@@ -4,16 +4,17 @@ public class AlignRotationToPlanet : MonoBehaviour
 {
 
     public Quaternion baseRotation;
-    Gravity gravity;
+    GetPlanet getPlanet;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         baseRotation = transform.rotation;
-        gravity = GetComponent<Gravity>();
+        getPlanet = GetComponent<GetPlanet>();
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void LateUpdate()
     {
         alignRotationToPlanet();
     }
@@ -27,7 +28,7 @@ public class AlignRotationToPlanet : MonoBehaviour
     //Calculates the playerobject rotation so that its always perpendicular to the surface, also uses left-right mouserotation.
     void alignRotationToPlanet()
     {
-        planetPlayerDistance = gravity.returnPlanetPlayerDistance();
+        planetPlayerDistance = getPlanet.PlanetPlayerDistance();
         planetDirection = planetPlayerDistance.normalized;
         transformUp = transform.up;
 
@@ -39,6 +40,7 @@ public class AlignRotationToPlanet : MonoBehaviour
         newRotation = baseRotation;
     }
 
+    //Returns newRotation to be used in PlayerScript.
     public Quaternion returnNewRotation()
     {
         return newRotation;

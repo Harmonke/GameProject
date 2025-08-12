@@ -15,14 +15,8 @@ public class PlayerMovement : MonoBehaviour
     
 
     public float movementSpeed;
-    public Vector3 gravity;
     public float jumpForce;
     public bool onGround;
-    
-    
-    public Quaternion baseRotation;
-    
-
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
