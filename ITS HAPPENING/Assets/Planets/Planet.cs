@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Planet : MonoBehaviour
@@ -9,10 +10,12 @@ public class Planet : MonoBehaviour
         return transform.position;
     }
 
+
+    public float gravityConstant;
     //Returns the planet's gravity constant.
     public float returnGravityConstant()
     {
-        float gravityConstant = 98.1f;
+
         return gravityConstant;
     }
 
@@ -20,5 +23,12 @@ public class Planet : MonoBehaviour
     public float returnRadius()
     {
         return transform.localScale.x;
+    }
+
+    public Boolean deepSpace;
+
+    public Boolean returnDeepSpace()
+    {
+        return deepSpace;
     }
 }

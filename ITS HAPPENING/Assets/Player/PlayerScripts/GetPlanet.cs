@@ -1,21 +1,33 @@
+using System;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class GetPlanet : MonoBehaviour
 {
-    public GameObject findPlanet;
+    public GameObject findDeepSpace;
     private Planet planet;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         //Finds GameObject in unity with the "Planet" tag and assigns it to the findPlanet field.
-        findPlanet = GameObject.FindWithTag("Planet");
+        findDeepSpace = GameObject.FindWithTag("DeepSpace");
         //Finds the Planet object/script within the Planet object.
-        planet = findPlanet.GetComponent<Planet>();
+        planet = findDeepSpace.GetComponent<Planet>();
     }
 
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "GravityCollider")
+        {
+            planet = other.GetComponentInParent<Planet>();
+        }
+    }
 
-    
+    void OnTriggerExit(Collider other)
+    {
+        planet = findDeepSpace.GetComponent<Planet>();
+    }
+
     void Update()
     {
         GroundPlayerDistance();
@@ -54,5 +66,10 @@ public class GetPlanet : MonoBehaviour
     public Vector3 PlanetPlayerDistance()
     {
         return planetPlayerDistance;
+    }
+
+    public Boolean returnDeepSpace()
+    {
+        return planet.returnDeepSpace();
     }
 }

@@ -1,5 +1,7 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -8,8 +10,10 @@ public class PlayerScript : MonoBehaviour
     AlignRotationToPlanet alignRotation;
     PlayerMovement playerMovement;
     Gravity gravity;
+    GetPlanet getPlanet;
     Rigidbody m_Rigidbody;
-    
+    [SerializeField] Quaternion baseRotation;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -20,49 +24,96 @@ public class PlayerScript : MonoBehaviour
         alignRotation = GetComponent<AlignRotationToPlanet>();
         playerMovement = GetComponent<PlayerMovement>();
         gravity = GetComponent<Gravity>();
+        getPlanet = GetComponent<GetPlanet>();
         m_Rigidbody = GetComponent<Rigidbody>();
+        baseRotation = transform.rotation;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        
+
         applyMovement();
         applyGravity();
-        
+
     }
 
-    private float playerYRotation;
+    [SerializeField] private float playerYRotation;
+    private float playerXSpaceRotation;
+    private float playerXRotation;
 
     //LateUpdate() is called once per frame, just like Update(), but after all Update() calls have finished.
     void LateUpdate()
     {
         playerYRotation = camRotation.returnYRotation();
+        playerXSpaceRotation = camRotation.returnXSpaceRotation();
+        playerXRotation = camRotation.returnPlayerXRotation();
         getNewRotation();
         applyRotation();
         //applyHeadRotation();
     }
 
-    
+
 
     [SerializeField]
     Quaternion newRotation;
+    Boolean deepSpace;
+    [SerializeField] Quaternion yaw;
+    [SerializeField] Vector3 transformUp;
     //Adds the alignedRotation and the playerYRotation together.
     void getNewRotation()
     {
-        newRotation = alignRotation.returnNewRotation() * Quaternion.Euler(0f, playerYRotation, 0f);
+        deepSpace = getPlanet.returnDeepSpace();
+
+        if (!deepSpace)
+        {
+            newRotation = alignRotation.returnNewRotation() * Quaternion.Euler(0f, playerYRotation, 0f);
+        }
+        else if (deepSpace)
+        {
+            newRotation = Quaternion.AngleAxis(playerYRotation, transform.up);
+        }
+
+
     }
 
+    [SerializeField] Quaternion spaceLocalYCamRotation;
+    [SerializeField] Quaternion spaceLocalXCamRotation;
+    Quaternion yawQ;
+    Quaternion pitchQ;
     //Returns rotation to be used in CameraRotation file.
     public Quaternion returnRotation()
     {
-        return newRotation;
+        if (!deepSpace)
+        {
+            return newRotation * Quaternion.Euler(-playerXRotation, 0f, 0f);
+        }
+        else
+        {
+            
+            
+
+            
+            return newRotation * Quaternion.Euler(-playerXSpaceRotation, 0f, 0f);
+        }
+
     }
 
     //Applies the calculated rotation.
     void applyRotation()
     {
-        m_Rigidbody.MoveRotation(newRotation);
+        if (!deepSpace)
+        {
+            m_Rigidbody.MoveRotation(newRotation);
+        }
+        else
+        {
+            
+
+            
+            m_Rigidbody.MoveRotation(newRotation * Quaternion.Euler(-playerXSpaceRotation, 0f, 0f));
+        }
+        
     }
 
 

@@ -7,6 +7,8 @@ TagManager:
   - Floor
   - Planet
   - Head
+  - GravityCollider
+  - DeepSpace
   layers:
   - Default
   - TransparentFX

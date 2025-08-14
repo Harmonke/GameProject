@@ -29,7 +29,7 @@ public class CameraRotation : MonoBehaviour
         headTransform = head.GetComponent<Transform>();
     }
 
-    
+
     //LateUpdate() is called once per frame, just like Update(), but after all Update() calls have finished. 
     void LateUpdate()
     {
@@ -45,7 +45,7 @@ public class CameraRotation : MonoBehaviour
     }
 
 
-    
+
 
     //Applies the position of the head object which is child to the playerobject.
     void applyPos()
@@ -54,7 +54,7 @@ public class CameraRotation : MonoBehaviour
         transform.position = Vector3.SmoothDamp(headTransform.position, target, ref velocity, 0.05f);
     }
 
-    
+
     //Calculates current Y rotation.
     public void PlayerYRotation()
     {
@@ -63,13 +63,17 @@ public class CameraRotation : MonoBehaviour
         playerYRotation = playerYRotation + Input.GetAxis("Mouse X");
     }
 
+
+    float playerXSpaceRotation;
     //Calculates current X rotation.
     public void PlayerXRotation()
     {
-        
-        
+
+
         playerXRotation = playerXRotation + Input.GetAxis("Mouse Y");
         playerXRotation = Mathf.Clamp(playerXRotation, -80f, 80f);
+
+        playerXSpaceRotation = playerXSpaceRotation + Input.GetAxis("Mouse Y");
     }
 
     //Applies calculated Rotations, takes YRotation + alignedrotation from playerScript.
@@ -78,7 +82,7 @@ public class CameraRotation : MonoBehaviour
         Quaternion addRotation = Quaternion.Euler(-playerXRotation, 0f, 0f);
 
 
-        transform.rotation = Quaternion.Slerp(transform.rotation, playerScript.returnRotation() * addRotation, 0.7f);
+        transform.rotation = Quaternion.Slerp(transform.rotation, playerScript.returnRotation(), 0.7f);
     }
 
     //Returns calculated Y rotation to be used in PlayerScript.
@@ -86,6 +90,16 @@ public class CameraRotation : MonoBehaviour
     {
         playerRotation = playerYRotation;
         return playerRotation;
+    }
+
+    public float returnXSpaceRotation()
+    {
+        return playerXSpaceRotation;
+    }
+
+    public float returnPlayerXRotation()
+    {
+        return playerXRotation;
     }
 
     
