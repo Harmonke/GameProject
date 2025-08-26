@@ -10,10 +10,10 @@ public class CameraRotation : MonoBehaviour
 
     public GameObject player;
     private PlayerScript playerScript;
+    private Transform playerTransform;
     public float playerYRotation;
     public float playerXRotation;
-    public GameObject head;
-    private Transform headTransform;
+    
     private Vector3 velocity = Vector3.zero;
     public float playerRotation;
 
@@ -24,9 +24,9 @@ public class CameraRotation : MonoBehaviour
         player = GameObject.FindWithTag("Player");
         //Finds the PlayerMovement object/script within the player object.
         playerScript = player.GetComponent<PlayerScript>();
+        playerTransform = player.GetComponent<Transform>();
 
-        head = GameObject.FindWithTag("Head");
-        headTransform = head.GetComponent<Transform>();
+        
     }
 
 
@@ -50,17 +50,18 @@ public class CameraRotation : MonoBehaviour
     //Applies the position of the head object which is child to the playerobject.
     void applyPos()
     {
-        Vector3 target = headTransform.position;
-        transform.position = Vector3.SmoothDamp(headTransform.position, target, ref velocity, 0.05f);
+        Vector3 target = playerTransform.position;
+        transform.position = Vector3.SmoothDamp(playerTransform.position, target, ref velocity, 0.05f);
     }
 
-
+    float playerYSpaceRotation;
     //Calculates current Y rotation.
     public void PlayerYRotation()
     {
 
         //Gets current mouse movement over x-axis, applies this to the rotation in transform and returns it aswell.
-        playerYRotation = playerYRotation + Input.GetAxis("Mouse X");
+        playerYRotation = Mathf.Repeat(playerYRotation + Input.GetAxis("Mouse X"), 360f);
+        playerYSpaceRotation = Input.GetAxis("Mouse X");
     }
 
 
@@ -73,15 +74,12 @@ public class CameraRotation : MonoBehaviour
         playerXRotation = playerXRotation + Input.GetAxis("Mouse Y");
         playerXRotation = Mathf.Clamp(playerXRotation, -80f, 80f);
 
-        playerXSpaceRotation = playerXSpaceRotation + Input.GetAxis("Mouse Y");
+        playerXSpaceRotation = Input.GetAxis("Mouse Y");
     }
 
     //Applies calculated Rotations, takes YRotation + alignedrotation from playerScript.
     public void applyRotation()
     {
-        Quaternion addRotation = Quaternion.Euler(-playerXRotation, 0f, 0f);
-
-
         transform.rotation = Quaternion.Slerp(transform.rotation, playerScript.returnRotation(), 0.7f);
     }
 
@@ -95,6 +93,11 @@ public class CameraRotation : MonoBehaviour
     public float returnXSpaceRotation()
     {
         return playerXSpaceRotation;
+    }
+
+    public float returnYSpaceRotation()
+    {
+        return playerYSpaceRotation;
     }
 
     public float returnPlayerXRotation()

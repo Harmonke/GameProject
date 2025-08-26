@@ -2,6 +2,7 @@ using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SocialPlatforms;
+using UnityEngine.UIElements;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -12,7 +13,11 @@ public class PlayerScript : MonoBehaviour
     Gravity gravity;
     GetPlanet getPlanet;
     Rigidbody m_Rigidbody;
+    Transform head;
     [SerializeField] Quaternion baseRotation;
+
+    [SerializeField]
+    Quaternion newRotation;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -26,7 +31,9 @@ public class PlayerScript : MonoBehaviour
         gravity = GetComponent<Gravity>();
         getPlanet = GetComponent<GetPlanet>();
         m_Rigidbody = GetComponent<Rigidbody>();
+        head = GetComponentInParent<Transform>();
         baseRotation = transform.rotation;
+        newRotation = Quaternion.Euler(0f, 0f, 0f);
     }
 
     // Update is called once per frame
@@ -35,52 +42,53 @@ public class PlayerScript : MonoBehaviour
 
         applyMovement();
         applyGravity();
-
+        if (deepSpace)
+        {
+            applyRotation();
+        }
+        
     }
 
     [SerializeField] private float playerYRotation;
     private float playerXSpaceRotation;
-    private float playerXRotation;
+    private float playerYSpaceRotation;
+    
+    [SerializeField] private float playerXRotation;
+    
 
     //LateUpdate() is called once per frame, just like Update(), but after all Update() calls have finished.
     void LateUpdate()
     {
         playerYRotation = camRotation.returnYRotation();
         playerXSpaceRotation = camRotation.returnXSpaceRotation();
+        playerYSpaceRotation = camRotation.returnYSpaceRotation();
         playerXRotation = camRotation.returnPlayerXRotation();
+
         getNewRotation();
-        applyRotation();
+        if (!deepSpace)
+        {
+            applyRotation();
+        }
         //applyHeadRotation();
     }
 
 
 
-    [SerializeField]
-    Quaternion newRotation;
+    
+    Quaternion rotationDif;
     Boolean deepSpace;
-    [SerializeField] Quaternion yaw;
+    [SerializeField] Quaternion pitch;
     [SerializeField] Vector3 transformUp;
     //Adds the alignedRotation and the playerYRotation together.
     void getNewRotation()
     {
         deepSpace = getPlanet.returnDeepSpace();
-
-        if (!deepSpace)
-        {
-            newRotation = alignRotation.returnNewRotation() * Quaternion.Euler(0f, playerYRotation, 0f);
-        }
-        else if (deepSpace)
-        {
-            newRotation = Quaternion.AngleAxis(playerYRotation, transform.up);
-        }
-
-
+        newRotation = alignRotation.returnNewRotation() * Quaternion.Euler(0f, playerYRotation, 0f);
     }
 
     [SerializeField] Quaternion spaceLocalYCamRotation;
     [SerializeField] Quaternion spaceLocalXCamRotation;
-    Quaternion yawQ;
-    Quaternion pitchQ;
+    
     //Returns rotation to be used in CameraRotation file.
     public Quaternion returnRotation()
     {
@@ -90,14 +98,11 @@ public class PlayerScript : MonoBehaviour
         }
         else
         {
-            
-            
-
-            
-            return newRotation * Quaternion.Euler(-playerXSpaceRotation, 0f, 0f);
+            return transform.rotation;
         }
 
     }
+
 
     //Applies the calculated rotation.
     void applyRotation()
@@ -108,10 +113,14 @@ public class PlayerScript : MonoBehaviour
         }
         else
         {
-            
 
+            //TRY TO GET THIS WORKING WITH A BASE ROTATION OF SOME SORT~~~~~~~~~~~~~~
+            //m_Rigidbody.MoveRotation(m_Rigidbody.rotation * newRotation * Quaternion.AngleAxis(-playerXSpaceRotation, transform.right));
             
-            m_Rigidbody.MoveRotation(newRotation * Quaternion.Euler(-playerXSpaceRotation, 0f, 0f));
+            m_Rigidbody.transform.localRotation *= Quaternion.AngleAxis(playerYSpaceRotation, Vector3.up);
+            m_Rigidbody.transform.localRotation *= Quaternion.AngleAxis(-playerXSpaceRotation, Vector3.right) ;
+            
+            
         }
         
     }
