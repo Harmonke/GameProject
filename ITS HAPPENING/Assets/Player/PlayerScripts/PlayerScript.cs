@@ -52,6 +52,7 @@ public class PlayerScript : MonoBehaviour
     void Update()
     {
         barrelRollInputs();
+        verticalDeepSpaceMovement();
     }
 
     [SerializeField] private float playerYRotation;
@@ -148,6 +149,13 @@ public class PlayerScript : MonoBehaviour
         
     }
 
+    Boolean moveUp;
+    Boolean moveDown;
+    void verticalDeepSpaceMovement()
+    {
+        moveUp = Input.GetKey(KeyCode.Space);
+        moveDown = Input.GetKey(KeyCode.LeftControl);
+    }
 
     [SerializeField]
     Vector3 movementForce;
@@ -160,6 +168,19 @@ public class PlayerScript : MonoBehaviour
         jumpForce = playerMovement.returnJumpMovementForce();
         m_Rigidbody.AddForce(movementForce, ForceMode.Force);
         m_Rigidbody.AddForce(jumpForce, ForceMode.Impulse);
+
+        if (deepSpace)
+        {
+            if (moveUp)
+            {
+                m_Rigidbody.AddForce(100f * transform.up, ForceMode.Force);
+            }
+
+            if (moveDown)
+            {
+                m_Rigidbody.AddForce(-100f * transform.up, ForceMode.Force);
+            }
+        }
     }
 
     //Applies gravity.

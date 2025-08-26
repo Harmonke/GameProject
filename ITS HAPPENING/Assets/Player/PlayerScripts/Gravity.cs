@@ -49,7 +49,7 @@ public class Gravity : MonoBehaviour
         surfacePoint = planetPosition + coreToPlayerDirection * planetRadius;
 
         groundPlayerDistance = Vector3.Distance(surfacePoint, playerPosition);
-        gravityForce = gravityConstant / Mathf.Pow(groundPlayerDistance, 0.5f);
+        gravityForce = gravityConstant / Mathf.Pow(groundPlayerDistance, 0.1f);
         gravity = -coreToPlayerDirection * gravityForce;
 
     }
