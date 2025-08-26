@@ -49,6 +49,11 @@ public class PlayerScript : MonoBehaviour
         
     }
 
+    void Update()
+    {
+        barrelRollInputs();
+    }
+
     [SerializeField] private float playerYRotation;
     private float playerXSpaceRotation;
     private float playerYSpaceRotation;
@@ -104,6 +109,14 @@ public class PlayerScript : MonoBehaviour
     }
 
 
+    Boolean leftRoll;
+    Boolean rightRoll;
+    void barrelRollInputs()
+    {
+        leftRoll = Input.GetKey("q");
+        rightRoll = Input.GetKey("e");
+    }
+
     //Applies the calculated rotation.
     void applyRotation()
     {
@@ -116,9 +129,19 @@ public class PlayerScript : MonoBehaviour
 
             //TRY TO GET THIS WORKING WITH A BASE ROTATION OF SOME SORT~~~~~~~~~~~~~~
             //m_Rigidbody.MoveRotation(m_Rigidbody.rotation * newRotation * Quaternion.AngleAxis(-playerXSpaceRotation, transform.right));
-            
+
             m_Rigidbody.transform.localRotation *= Quaternion.AngleAxis(playerYSpaceRotation, Vector3.up);
-            m_Rigidbody.transform.localRotation *= Quaternion.AngleAxis(-playerXSpaceRotation, Vector3.right) ;
+            m_Rigidbody.transform.localRotation *= Quaternion.AngleAxis(-playerXSpaceRotation, Vector3.right);
+
+            if (leftRoll)
+            {
+                m_Rigidbody.transform.localRotation *= Quaternion.AngleAxis(2f, Vector3.forward);
+            }
+
+            if (rightRoll)
+            {
+                m_Rigidbody.transform.localRotation *= Quaternion.AngleAxis(-2f, Vector3.forward);
+            }
             
             
         }
