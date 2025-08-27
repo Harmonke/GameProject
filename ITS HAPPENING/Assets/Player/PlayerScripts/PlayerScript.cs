@@ -36,13 +36,15 @@ public class PlayerScript : MonoBehaviour
         newRotation = Quaternion.Euler(0f, 0f, 0f);
     }
 
+    
     // Update is called once per frame
     void FixedUpdate()
     {
-
         applyMovement();
         applyGravity();
-        if (deepSpace)
+
+        //If first contact hasnt been made function should be called in FixedUpdate.
+        if (!firstContact)
         {
             applyRotation();
         }
@@ -70,35 +72,47 @@ public class PlayerScript : MonoBehaviour
         playerYSpaceRotation = camRotation.returnYSpaceRotation();
         playerXRotation = camRotation.returnPlayerXRotation();
 
+        getAlignModeValues();
+
         getNewRotation();
-        if (!deepSpace)
+
+        //If not in deepSpace and firstcontact has been made function should be called in LateUpdate.
+        if (!deepSpace && firstContact)
         {
             applyRotation();
         }
-        //applyHeadRotation();
+        
     }
 
 
 
     
     Quaternion rotationDif;
-    Boolean deepSpace;
+    
     [SerializeField] Quaternion pitch;
     [SerializeField] Vector3 transformUp;
     //Adds the alignedRotation and the playerYRotation together.
     void getNewRotation()
     {
-        deepSpace = getPlanet.returnDeepSpace();
         newRotation = alignRotation.returnNewRotation() * Quaternion.Euler(0f, playerYRotation, 0f);
     }
 
     [SerializeField] Quaternion spaceLocalYCamRotation;
     [SerializeField] Quaternion spaceLocalXCamRotation;
+
+    Boolean deepSpace;
+    Boolean firstContact;
+    //Gets the values that determines if player should be aligned.
+    void getAlignModeValues()
+    {
+        deepSpace = getPlanet.returnDeepSpace();
+        firstContact = getPlanet.returnFirstContact();
+    }
     
     //Returns rotation to be used in CameraRotation file.
     public Quaternion returnRotation()
     {
-        if (!deepSpace)
+        if (!deepSpace && firstContact)
         {
             return newRotation * Quaternion.Euler(-playerXRotation, 0f, 0f);
         }
@@ -121,7 +135,7 @@ public class PlayerScript : MonoBehaviour
     //Applies the calculated rotation.
     void applyRotation()
     {
-        if (!deepSpace)
+        if (!deepSpace && firstContact)
         {
             m_Rigidbody.MoveRotation(newRotation);
         }

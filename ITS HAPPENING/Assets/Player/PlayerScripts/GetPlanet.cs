@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GetPlanet : MonoBehaviour
@@ -23,14 +24,36 @@ public class GetPlanet : MonoBehaviour
         }
     }
 
+    Boolean firstContact;
+    Boolean resetBaseRotation;
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Planet")
+        {
+            if (!firstContact)
+            {
+                resetBaseRotation = true;
+            }
+
+            firstContact = true;
+            
+        }
+    }
+
     void OnTriggerExit(Collider other)
     {
         planet = findDeepSpace.GetComponent<Planet>();
+        firstContact = false;
     }
 
     void Update()
     {
         GroundPlayerDistance();
+    }
+
+    void LateUpdate()
+    {
+        resetBaseRotation = false;
     }
 
     //Gets position from planet script.
@@ -71,5 +94,15 @@ public class GetPlanet : MonoBehaviour
     public Boolean returnDeepSpace()
     {
         return planet.returnDeepSpace();
+    }
+
+    public Boolean returnFirstContact()
+    {
+        return firstContact;
+    }
+
+    public Boolean returnResetBaseRotation()
+    {
+        return resetBaseRotation;
     }
 }

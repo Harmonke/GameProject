@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class AlignRotationToPlanet : MonoBehaviour
 {
-
+    
     public Quaternion baseRotation;
     GetPlanet getPlanet;
     
@@ -13,10 +13,24 @@ public class AlignRotationToPlanet : MonoBehaviour
         getPlanet = GetComponent<GetPlanet>();
     }
 
+    void Update()
+    {
+        resetBaseRotation();
+    }
+
     // Update is called once per frame
     void LateUpdate()
     {
         alignRotationToPlanet();
+    }
+
+    void resetBaseRotation()
+    {
+        if (getPlanet.returnResetBaseRotation())
+        {
+            baseRotation = transform.rotation;
+            
+        }
     }
 
     public Vector3 planetDirection;
