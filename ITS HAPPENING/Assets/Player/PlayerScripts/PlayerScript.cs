@@ -91,10 +91,22 @@ public class PlayerScript : MonoBehaviour
     
     [SerializeField] Quaternion pitch;
     [SerializeField] Vector3 transformUp;
+
+    [SerializeField] float accumulatedYRot;
+    [SerializeField] Quaternion planetYRotation;
     //Adds the alignedRotation and the playerYRotation together.
     void getNewRotation()
     {
-        newRotation = alignRotation.returnNewRotation() * Quaternion.Euler(0f, playerYRotation, 0f);
+        if (!deepSpace && firstContact)
+        {
+            accumulatedYRot += playerYRotation;
+            planetYRotation = Quaternion.Euler(0f, accumulatedYRot, 0f);
+            newRotation = alignRotation.returnNewRotation() * planetYRotation;
+        }
+        else
+        {
+            accumulatedYRot = 0f;
+        }
     }
 
     [SerializeField] Quaternion spaceLocalYCamRotation;
@@ -109,15 +121,21 @@ public class PlayerScript : MonoBehaviour
         firstContact = getPlanet.returnFirstContact();
     }
     
+    float accumulatedXRot;
+    Quaternion planetXRotation;
     //Returns rotation to be used in CameraRotation file.
     public Quaternion returnRotation()
     {
         if (!deepSpace && firstContact)
         {
-            return newRotation * Quaternion.Euler(-playerXRotation, 0f, 0f);
+            accumulatedXRot += -playerXRotation;
+            accumulatedXRot = Mathf.Clamp(accumulatedXRot, -80f, 80f);
+            planetXRotation = Quaternion.Euler(accumulatedXRot, 0f, 0f);
+            return transform.rotation * planetXRotation;
         }
         else
         {
+            accumulatedXRot = 0f;
             return transform.rotation;
         }
 

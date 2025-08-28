@@ -9,11 +9,12 @@ TagManager:
   - Head
   - GravityCollider
   - DeepSpace
+  - Interactable
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Interactable
   - Water
   - UI
   - 

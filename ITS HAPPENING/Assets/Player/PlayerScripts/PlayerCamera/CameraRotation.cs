@@ -60,7 +60,7 @@ public class CameraRotation : MonoBehaviour
     {
 
         //Gets current mouse movement over x-axis, applies this to the rotation in transform and returns it aswell.
-        playerYRotation = Mathf.Repeat(playerYRotation + Input.GetAxis("Mouse X"), 360f);
+        playerYRotation = Input.GetAxis("Mouse X");
         playerYSpaceRotation = Input.GetAxis("Mouse X");
     }
 
@@ -71,7 +71,7 @@ public class CameraRotation : MonoBehaviour
     {
 
 
-        playerXRotation = playerXRotation + Input.GetAxis("Mouse Y");
+        playerXRotation = Input.GetAxis("Mouse Y");
         playerXRotation = Mathf.Clamp(playerXRotation, -80f, 80f);
 
         playerXSpaceRotation = Input.GetAxis("Mouse Y");

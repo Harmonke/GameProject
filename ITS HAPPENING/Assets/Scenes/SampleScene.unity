@@ -378,37 +378,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!1 &521958515
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 521958516}
-  m_Layer: 0
-  m_Name: Head
-  m_TagString: Head
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &521958516
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 521958515}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 161.8, y: 46.9, z: -3.38}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &592516744 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 161947cddbdbb5249b5286aaf09c400b, type: 3}
@@ -621,7 +590,7 @@ GameObject:
   - component: {fileID: 914182776}
   m_Layer: 0
   m_Name: SpaceShip
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1098,6 +1067,7 @@ GameObject:
   - component: {fileID: 1937401181}
   - component: {fileID: 1937401182}
   - component: {fileID: 1937401183}
+  - component: {fileID: 1937401185}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Player
@@ -1221,7 +1191,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 2
 --- !u!114 &1937401180
 MonoBehaviour:
@@ -1287,6 +1257,8 @@ MonoBehaviour:
   playerXRotation: 0
   pitch: {x: 0, y: 0, z: 0, w: 0}
   transformUp: {x: 0, y: 0, z: 0}
+  accumulatedYRot: 0
+  planetYRotation: {x: 0, y: 0, z: 0, w: 0}
   spaceLocalYCamRotation: {x: 0, y: 0, z: 0, w: 0}
   spaceLocalXCamRotation: {x: 0, y: 0, z: 0, w: 0}
   movementForce: {x: 0, y: 0, z: 0}
@@ -1305,6 +1277,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   findDeepSpace: {fileID: 0}
   planetPlayerDistance: {x: 0, y: 0, z: 0}
+--- !u!114 &1937401185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1937401172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 183ac4a0a8149fa489a7dab05da9a722, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 0}
 --- !u!1 &2015454195
 GameObject:
   m_ObjectHideFlags: 0
@@ -1361,6 +1346,5 @@ SceneRoots:
   - {fileID: 1677027229}
   - {fileID: 66737032}
   - {fileID: 2015454197}
-  - {fileID: 521958516}
   - {fileID: 1937401177}
   - {fileID: 914182779}
