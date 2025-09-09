@@ -7,14 +7,16 @@ using UnityEngine.UIElements;
 public class PlayerScript : MonoBehaviour
 {
     public GameObject cam;
-    private CameraRotation camRotation;
+    
     AlignRotationToPlanet alignRotation;
     PlayerMovement playerMovement;
     Gravity gravity;
     GetPlanet getPlanet;
     Rigidbody m_Rigidbody;
-    Transform head;
-    [SerializeField] Quaternion baseRotation;
+    
+    GameObject inputObject;
+    Inputs inputFile;
+    
 
     [SerializeField]
     Quaternion newRotation;
@@ -25,14 +27,13 @@ public class PlayerScript : MonoBehaviour
         //Finds GameObject in unity with the "MainCamera" tag and assigns it to the cam field.
         cam = GameObject.FindWithTag("MainCamera");
         //Finds the CameraRotation object/script within the Camera object.
-        camRotation = cam.GetComponent<CameraRotation>();
         alignRotation = GetComponent<AlignRotationToPlanet>();
         playerMovement = GetComponent<PlayerMovement>();
         gravity = GetComponent<Gravity>();
         getPlanet = GetComponent<GetPlanet>();
         m_Rigidbody = GetComponent<Rigidbody>();
-        head = GetComponentInParent<Transform>();
-        baseRotation = transform.rotation;
+        inputObject = GameObject.FindWithTag("InputObject");
+        inputFile = inputObject.GetComponent<Inputs>();
         newRotation = Quaternion.Euler(0f, 0f, 0f);
     }
 
@@ -42,66 +43,56 @@ public class PlayerScript : MonoBehaviour
     {
         applyMovement();
         applyGravity();
-
-        //If first contact hasnt been made function should be called in FixedUpdate.
-        if (!firstContact)
-        {
-            applyRotation();
-        }
+        
+        
+        
+        
         
     }
 
     void Update()
     {
-        barrelRollInputs();
         verticalDeepSpaceMovement();
+        GetAlignment();
+        GetNewRotation();
+        ApplyAlignment();
+        GetRotation();
+        getAlignModeValues();
+        ApplyRotation();
     }
 
     [SerializeField] private float playerYRotation;
-    private float playerXSpaceRotation;
-    private float playerYSpaceRotation;
+    
     
     [SerializeField] private float playerXRotation;
-    
 
-    //LateUpdate() is called once per frame, just like Update(), but after all Update() calls have finished.
-    void LateUpdate()
+
+   
+
+    void GetRotation()
     {
-        playerYRotation = camRotation.returnYRotation();
-        playerXSpaceRotation = camRotation.returnXSpaceRotation();
-        playerYSpaceRotation = camRotation.returnYSpaceRotation();
-        playerXRotation = camRotation.returnPlayerXRotation();
-
-        getAlignModeValues();
-
-        getNewRotation();
-
-        //If not in deepSpace and firstcontact has been made function should be called in LateUpdate.
-        if (!deepSpace && firstContact)
-        {
-            applyRotation();
-        }
-        
+        playerYRotation = inputFile.PlayerYRotation();
+        playerXRotation = inputFile.PlayerXRotation();
+        accumulatedYRot += playerYRotation;
+        planetYRotation = Quaternion.Euler(0f, accumulatedYRot, 0f);
     }
 
-
-
-    
-    Quaternion rotationDif;
-    
-    [SerializeField] Quaternion pitch;
-    [SerializeField] Vector3 transformUp;
+    Quaternion alignment;
+    void GetAlignment()
+    {
+        alignment = alignRotation.alignRotationToPlanet();
+    }
 
     [SerializeField] float accumulatedYRot;
     [SerializeField] Quaternion planetYRotation;
     //Adds the alignedRotation and the playerYRotation together.
-    void getNewRotation()
+    void GetNewRotation()
     {
+        
         if (!deepSpace && firstContact)
         {
-            accumulatedYRot += playerYRotation;
-            planetYRotation = Quaternion.Euler(0f, accumulatedYRot, 0f);
-            newRotation = alignRotation.returnNewRotation() * planetYRotation;
+            
+            newRotation = alignment;
         }
         else
         {
@@ -109,8 +100,7 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    [SerializeField] Quaternion spaceLocalYCamRotation;
-    [SerializeField] Quaternion spaceLocalXCamRotation;
+    
 
     Boolean deepSpace;
     Boolean firstContact;
@@ -141,30 +131,29 @@ public class PlayerScript : MonoBehaviour
 
     }
 
-
-    Boolean leftRoll;
-    Boolean rightRoll;
-    void barrelRollInputs()
-    {
-        leftRoll = Input.GetKey("q");
-        rightRoll = Input.GetKey("e");
-    }
-
-    //Applies the calculated rotation.
-    void applyRotation()
+    void ApplyAlignment()
     {
         if (!deepSpace && firstContact)
         {
-            m_Rigidbody.MoveRotation(newRotation);
+            //m_Rigidbody.transform.localRotation = newRotation ;
+        }
+    }
+    
+    //Applies the calculated rotation.
+    void ApplyRotation()
+    {
+        if (!deepSpace && firstContact)
+        {
+            m_Rigidbody.MoveRotation(newRotation * Quaternion.AngleAxis( accumulatedYRot, Vector3.up));
         }
         else
         {
 
-            //TRY TO GET THIS WORKING WITH A BASE ROTATION OF SOME SORT~~~~~~~~~~~~~~
-            //m_Rigidbody.MoveRotation(m_Rigidbody.rotation * newRotation * Quaternion.AngleAxis(-playerXSpaceRotation, transform.right));
+            Boolean leftRoll = inputFile.LeftRollInput();
+            Boolean rightRoll = inputFile.RightRollInput();
 
-            m_Rigidbody.transform.localRotation *= Quaternion.AngleAxis(playerYSpaceRotation, Vector3.up);
-            m_Rigidbody.transform.localRotation *= Quaternion.AngleAxis(-playerXSpaceRotation, Vector3.right);
+            m_Rigidbody.transform.localRotation *= Quaternion.AngleAxis(playerYRotation, Vector3.up);
+            m_Rigidbody.transform.localRotation *= Quaternion.AngleAxis(-playerXRotation, Vector3.right);
 
             if (leftRoll)
             {
@@ -181,12 +170,12 @@ public class PlayerScript : MonoBehaviour
         
     }
 
-    Boolean moveUp;
+    float moveUp;
     Boolean moveDown;
     void verticalDeepSpaceMovement()
     {
-        moveUp = Input.GetKey(KeyCode.Space);
-        moveDown = Input.GetKey(KeyCode.LeftControl);
+        moveUp = inputFile.MoveUp();
+        moveDown = inputFile.MoveDown();
     }
 
     [SerializeField]
@@ -203,10 +192,9 @@ public class PlayerScript : MonoBehaviour
 
         if (deepSpace)
         {
-            if (moveUp)
-            {
-                m_Rigidbody.AddForce(100f * transform.up, ForceMode.Force);
-            }
+            
+            m_Rigidbody.AddForce(100f * transform.up * moveUp, ForceMode.Force);
+            
 
             if (moveDown)
             {
@@ -218,6 +206,6 @@ public class PlayerScript : MonoBehaviour
     //Applies gravity.
     void applyGravity()
     {
-        m_Rigidbody.AddForce(gravity.returnGravity(), ForceMode.Force);
+        m_Rigidbody.AddForce(gravity.planetGravity(), ForceMode.Force);
     }
 }

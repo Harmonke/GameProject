@@ -46,10 +46,7 @@ public class GetPlanet : MonoBehaviour
         firstContact = false;
     }
 
-    void Update()
-    {
-        GroundPlayerDistance();
-    }
+    
 
     void LateUpdate()
     {
@@ -78,18 +75,15 @@ public class GetPlanet : MonoBehaviour
     Vector3 playerPosition;
     [SerializeField] Vector3 planetPlayerDistance;
     //Calculates the distance between the planets surface and the player.
-    void GroundPlayerDistance()
+    public Vector3 GroundPlayerDistance()
     {
         planetPosition = planet.returnPosition();
         playerPosition = transform.position;
         planetPlayerDistance = playerPosition - planetPosition;
-    }
-
-    //Returns planetPlayerDistance to be used in PlayerScript.
-    public Vector3 PlanetPlayerDistance()
-    {
         return planetPlayerDistance;
     }
+
+    
 
     public Boolean returnDeepSpace()
     {

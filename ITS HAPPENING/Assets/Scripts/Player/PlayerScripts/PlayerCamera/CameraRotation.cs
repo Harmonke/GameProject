@@ -11,11 +11,8 @@ public class CameraRotation : MonoBehaviour
     public GameObject player;
     private PlayerScript playerScript;
     private Transform playerTransform;
-    public float playerYRotation;
-    public float playerXRotation;
-    
     private Vector3 velocity = Vector3.zero;
-    public float playerRotation;
+    
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -37,16 +34,6 @@ public class CameraRotation : MonoBehaviour
         applyPos();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        PlayerYRotation();
-        PlayerXRotation();
-    }
-
-
-
-
     //Applies the position of the head object which is child to the playerobject.
     void applyPos()
     {
@@ -54,28 +41,7 @@ public class CameraRotation : MonoBehaviour
         transform.position = Vector3.SmoothDamp(playerTransform.position, target, ref velocity, 0.05f);
     }
 
-    float playerYSpaceRotation;
-    //Calculates current Y rotation.
-    public void PlayerYRotation()
-    {
-
-        //Gets current mouse movement over x-axis, applies this to the rotation in transform and returns it aswell.
-        playerYRotation = Input.GetAxis("Mouse X");
-        playerYSpaceRotation = Input.GetAxis("Mouse X");
-    }
-
-
-    float playerXSpaceRotation;
-    //Calculates current X rotation.
-    public void PlayerXRotation()
-    {
-
-
-        playerXRotation = Input.GetAxis("Mouse Y");
-        playerXRotation = Mathf.Clamp(playerXRotation, -80f, 80f);
-
-        playerXSpaceRotation = Input.GetAxis("Mouse Y");
-    }
+    
 
     //Applies calculated Rotations, takes YRotation + alignedrotation from playerScript.
     public void applyRotation()
@@ -83,27 +49,7 @@ public class CameraRotation : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, playerScript.returnRotation(), 0.7f);
     }
 
-    //Returns calculated Y rotation to be used in PlayerScript.
-    public float returnYRotation()
-    {
-        playerRotation = playerYRotation;
-        return playerRotation;
-    }
-
-    public float returnXSpaceRotation()
-    {
-        return playerXSpaceRotation;
-    }
-
-    public float returnYSpaceRotation()
-    {
-        return playerYSpaceRotation;
-    }
-
-    public float returnPlayerXRotation()
-    {
-        return playerXRotation;
-    }
+    
 
     
 }

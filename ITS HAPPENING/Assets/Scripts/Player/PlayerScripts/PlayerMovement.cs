@@ -18,11 +18,15 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce;
     public bool onGround;
 
+    GameObject inputObject;
+    Inputs inputFile;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        inputObject = GameObject.FindWithTag("InputObject");
+        inputFile = inputObject.GetComponent<Inputs>();
     }
 
     // FixedUpdate is called once per set amount of time (for physics related stuff like moving).
@@ -41,8 +45,8 @@ public class PlayerMovement : MonoBehaviour
     void Movement()
     {
         //Floats storing the value of input based on inputs selected in input manager, can either be -1, 0 or 1.
-        horizontalInput = Input.GetAxisRaw("Horizontal");
-        verticalInput = Input.GetAxisRaw("Vertical");
+        horizontalInput = inputFile.HorizontalInput();
+        verticalInput = inputFile.VerticalInput();
 
         //Calculates the movementForce.
         Vector3 inputDirection = (transform.forward * verticalInput) + (transform.right * horizontalInput);
@@ -84,7 +88,7 @@ public class PlayerMovement : MonoBehaviour
     void Jump()
     {
         jumpForce = 40f;
-        jumpInput = Input.GetAxisRaw("Jump");
+        jumpInput = inputFile.MoveUp();
 
         if (CheckGrounded())
         {

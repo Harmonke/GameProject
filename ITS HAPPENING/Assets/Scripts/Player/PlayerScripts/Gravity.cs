@@ -16,11 +16,7 @@ public class Gravity : MonoBehaviour
     }
 
     // Update is called once per frame
-    void LateUpdate()
-    {
-        planetGravity();
-    }
-
+   
 
 
 
@@ -37,9 +33,9 @@ public class Gravity : MonoBehaviour
     [SerializeField] Vector3 gravity;
 
     //Calculates the planets surface position to use it to use the difference between the player and surface position along with the planets gravity constant to calc gravity.
-    void planetGravity()
+    public Vector3 planetGravity()
     {
-        planetPlayerDistance = getPlanet.PlanetPlayerDistance();
+        planetPlayerDistance = getPlanet.GroundPlayerDistance();
         playerPosition = transform.position;
         planetPosition = getPlanet.PlanetPosition();
         planetRadius = getPlanet.PlanetRadius();
@@ -51,14 +47,11 @@ public class Gravity : MonoBehaviour
         groundPlayerDistance = Vector3.Distance(surfacePoint, playerPosition);
         gravityForce = gravityConstant / Mathf.Pow(groundPlayerDistance, 0.1f);
         gravity = -coreToPlayerDirection * gravityForce;
-
-    }
-
-    public Vector3 returnGravity()
-    {
         return gravity;
+
     }
 
+    
     
     
 

@@ -10,6 +10,7 @@ TagManager:
   - GravityCollider
   - DeepSpace
   - Interactable
+  - InputObject
   layers:
   - Default
   - TransparentFX
@@ -17,10 +18,10 @@ TagManager:
   - Interactable
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
+  - PlanetMeshCollider
+  - PlanetSphereMesh
+  - SpaceShip
+  - Player
   - 
   - 
   - 
