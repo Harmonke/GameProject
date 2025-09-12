@@ -40,10 +40,17 @@ public class GetPlanet : MonoBehaviour
         }
     }
 
+    Vector3 spacePosition;
     void OnTriggerExit(Collider other)
     {
         planet = findDeepSpace.GetComponent<Planet>();
+        spacePosition = transform.position;
         firstContact = false;
+    }
+
+    public Vector3 ReturnSpacePosition()
+    {
+        return spacePosition;
     }
 
     

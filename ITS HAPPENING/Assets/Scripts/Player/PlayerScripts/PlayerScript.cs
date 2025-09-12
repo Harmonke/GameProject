@@ -16,6 +16,12 @@ public class PlayerScript : MonoBehaviour
     
     GameObject inputObject;
     Inputs inputFile;
+
+    GameObject[] solarSystem;
+
+    Rigidbody[] solarSystemRigidBodies;
+    RelativePlanetMovement[] solarSystemMovement;
+
     
 
     [SerializeField]
@@ -35,6 +41,18 @@ public class PlayerScript : MonoBehaviour
         inputObject = GameObject.FindWithTag("InputObject");
         inputFile = inputObject.GetComponent<Inputs>();
         newRotation = Quaternion.Euler(0f, 0f, 0f);
+        solarSystem = GameObject.FindGameObjectsWithTag("Planet");
+
+        solarSystemRigidBodies = new Rigidbody[solarSystem.Length];
+        solarSystemMovement = new RelativePlanetMovement[solarSystem.Length];
+
+        //Stores all planets in an array.
+        for (int i = 0; i < solarSystem.Length; i++)
+        {
+            solarSystemRigidBodies[i] = solarSystem[i].GetComponent<Rigidbody>();
+            solarSystemMovement[i] = solarSystem[i].GetComponent<RelativePlanetMovement>();
+        }
+
     }
 
     
@@ -55,7 +73,7 @@ public class PlayerScript : MonoBehaviour
         verticalDeepSpaceMovement();
         GetAlignment();
         GetNewRotation();
-        ApplyAlignment();
+        
         GetRotation();
         getAlignModeValues();
         ApplyRotation();
@@ -91,7 +109,6 @@ public class PlayerScript : MonoBehaviour
         
         if (!deepSpace && firstContact)
         {
-            
             newRotation = alignment;
         }
         else
@@ -103,7 +120,7 @@ public class PlayerScript : MonoBehaviour
     
 
     Boolean deepSpace;
-    Boolean firstContact;
+    [SerializeField] Boolean firstContact;
     //Gets the values that determines if player should be aligned.
     void getAlignModeValues()
     {
@@ -131,13 +148,7 @@ public class PlayerScript : MonoBehaviour
 
     }
 
-    void ApplyAlignment()
-    {
-        if (!deepSpace && firstContact)
-        {
-            //m_Rigidbody.transform.localRotation = newRotation ;
-        }
-    }
+   
     
     //Applies the calculated rotation.
     void ApplyRotation()
@@ -182,18 +193,36 @@ public class PlayerScript : MonoBehaviour
     Vector3 movementForce;
     [SerializeField]
     Vector3 jumpForce;
+    [SerializeField] Vector3 inputDirection;
+    Vector3 spaceMovementForce;
     //Applies movement forces calculated in PlayerMovement.
     void applyMovement()
     {
-        movementForce = playerMovement.returnMovementForce();
-        jumpForce = playerMovement.returnJumpMovementForce();
-        m_Rigidbody.AddForce(movementForce, ForceMode.Force);
-        m_Rigidbody.AddForce(jumpForce, ForceMode.Impulse);
-
-        if (deepSpace)
+        movementForce = playerMovement.Movement();
+        if (!deepSpace && firstContact)
         {
             
-            m_Rigidbody.AddForce(100f * transform.up * moveUp, ForceMode.Force);
+            jumpForce = playerMovement.returnJumpMovementForce();
+            m_Rigidbody.AddForce(movementForce, ForceMode.Force);
+            m_Rigidbody.AddForce(jumpForce, ForceMode.Impulse);
+        }
+        else if (!firstContact)
+        {
+            //Forward and right movement in space.
+
+            //Stores all planets in an array.
+            for (int i = 0; i < solarSystem.Length; i++)
+            {
+                Rigidbody planet = solarSystemRigidBodies[i];
+                RelativePlanetMovement orbitMovement = solarSystemMovement[i];
+
+                spaceMovementForce = movementForce + spaceMovementForce;
+                planet.MovePosition(planet.position + (spaceMovementForce * 0.1f + (transform.up * moveUp * 100f) + (orbitMovement.ReturnOrbit() * 1000f)) * -0.001f);
+            }
+            
+
+
+
             
 
             if (moveDown)

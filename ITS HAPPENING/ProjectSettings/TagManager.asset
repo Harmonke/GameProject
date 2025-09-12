@@ -11,6 +11,7 @@ TagManager:
   - DeepSpace
   - Interactable
   - InputObject
+  - SolarSystem
   layers:
   - Default
   - TransparentFX
