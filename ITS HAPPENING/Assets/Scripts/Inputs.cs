@@ -16,8 +16,6 @@ public class Inputs : MonoBehaviour
     //Calculates current X rotation.
     public float PlayerXRotation()
     {
-
-
         playerXRotation = Input.GetAxis("Mouse Y");
         playerXRotation = Mathf.Clamp(playerXRotation, -80f, 80f);
 
@@ -65,6 +63,13 @@ public class Inputs : MonoBehaviour
     {
         moveDown = Input.GetKey(KeyCode.LeftControl);
         return moveDown;
+    }
+
+    bool interact;
+    public bool Interact()
+    {
+        interact = Input.GetKeyDown(KeyCode.F);
+        return interact;
     }
 
 }

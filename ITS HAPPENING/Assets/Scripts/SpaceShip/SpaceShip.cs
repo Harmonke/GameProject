@@ -25,7 +25,7 @@ public class SpaceShip : MonoBehaviour
     //Applies gravity.
     void applyGravity()
     {
-        rb.AddForce(gravity.planetGravity(), ForceMode.Force);
+        rb.AddForce(gravity.planetGravity() * rb.mass, ForceMode.Force);
     }
 
     public Vector3 ReturnPosition()

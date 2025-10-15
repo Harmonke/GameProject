@@ -3,23 +3,28 @@ using UnityEngine;
 
 public class RelativePlanetMovement : MonoBehaviour
 {
-    public GameObject orbitPlanet;
-    Transform orbitPlanetTransform;
+    public GameObject player;
+    GetPlanet getPlanet;
+    Rigidbody rb;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        orbitPlanetTransform = orbitPlanet.GetComponent<Transform>();
+        player = GameObject.FindWithTag("Player");
+        getPlanet = player.GetComponent<GetPlanet>();
+        rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
-
+        applyMovement();
     }
 
-    public Vector3 ReturnOrbit()
+
+
+    Vector3 ReturnOrbit()
     {
-        Vector3 center = orbitPlanetTransform.position;
+        Vector3 center = getPlanet.ReturnCenterPosition();
 
         // offset vector (from center to planet)
         Vector3 offset = transform.position - center;
@@ -30,6 +35,13 @@ public class RelativePlanetMovement : MonoBehaviour
         // scale by orbit speed
         return tangent;
     }
+
+    void applyMovement()
+    {
+        rb.MovePosition(transform.position + ReturnOrbit() * -1f);
+    }
+    
+
     
 
 }

@@ -26,7 +26,7 @@ public class NewMonoBehaviourScript : MonoBehaviour
     //Displays text on screen.
     void DisplayText()
     {
-        if (playerInteract.interactPrompt())
+        if (playerInteract.returnInteractable())
         {
             output.text = "Interact (" + GetInteractBind() + ")";
         }

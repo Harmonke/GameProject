@@ -7,6 +7,8 @@ public class PlayerInteract : MonoBehaviour
 
     public GameObject cam;
     private CameraRotation camRotation;
+    GameObject inputObject;
+    Inputs inputFile;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -15,33 +17,52 @@ public class PlayerInteract : MonoBehaviour
         cam = GameObject.FindWithTag("MainCamera");
         //Finds the CameraRotation object/script within the Camera object.
         camRotation = cam.GetComponent<CameraRotation>();
+        inputObject = GameObject.FindWithTag("InputObject");
+        inputFile = inputObject.GetComponent<Inputs>();
+    }
+
+    void Update()
+    {
+        interactPrompt();
+        RunInteractable();
     }
 
     // Update is called once per frame
-    
-
-
-    [SerializeField] Boolean Interactable;
+    GameObject interactableGameObj;
+    Interactable interactableScript;
+    [SerializeField] bool interactable;
     //This function handles showing an interact prompt when youre looking at an interactable object up close.
-    public Boolean interactPrompt()
+    void interactPrompt()
     {
         Ray ray = new Ray(cam.transform.position, cam.transform.forward);
         if (Physics.Raycast(ray, out RaycastHit hit, 3f))
         {
             if (hit.collider.CompareTag("Interactable"))
             {
-                Interactable = true;
+                interactable = true;
+                interactableGameObj = hit.collider.gameObject;
+                interactableScript = interactableGameObj.GetComponent<Interactable>();
             }
             else
             {
-                Interactable = false;
+                interactable = false;
             }
         }
         else
         {
-            Interactable = false;
+            interactable = false;
         }
-        return Interactable;
+    }
+
+    public bool returnInteractable()
+    {
+        return interactable;
+    }
+
+    void RunInteractable()
+    {
+        if (interactable && inputFile.Interact())
+        interactableScript.InteractBehavior();
     }
 
    

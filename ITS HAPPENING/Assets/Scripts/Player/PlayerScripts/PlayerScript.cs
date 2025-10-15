@@ -17,10 +17,7 @@ public class PlayerScript : MonoBehaviour
     GameObject inputObject;
     Inputs inputFile;
 
-    GameObject[] solarSystem;
-
-    Rigidbody[] solarSystemRigidBodies;
-    RelativePlanetMovement[] solarSystemMovement;
+    
 
     
 
@@ -41,17 +38,9 @@ public class PlayerScript : MonoBehaviour
         inputObject = GameObject.FindWithTag("InputObject");
         inputFile = inputObject.GetComponent<Inputs>();
         newRotation = Quaternion.Euler(0f, 0f, 0f);
-        solarSystem = GameObject.FindGameObjectsWithTag("Planet");
+        
 
-        solarSystemRigidBodies = new Rigidbody[solarSystem.Length];
-        solarSystemMovement = new RelativePlanetMovement[solarSystem.Length];
-
-        //Stores all planets in an array.
-        for (int i = 0; i < solarSystem.Length; i++)
-        {
-            solarSystemRigidBodies[i] = solarSystem[i].GetComponent<Rigidbody>();
-            solarSystemMovement[i] = solarSystem[i].GetComponent<RelativePlanetMovement>();
-        }
+        
 
     }
 
@@ -85,12 +74,12 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] private float playerXRotation;
 
 
-   
+    [SerializeField] float sensitivity;
 
     void GetRotation()
     {
-        playerYRotation = inputFile.PlayerYRotation();
-        playerXRotation = inputFile.PlayerXRotation();
+        playerYRotation = inputFile.PlayerYRotation() * sensitivity;
+        playerXRotation = inputFile.PlayerXRotation() * sensitivity;
         accumulatedYRot += playerYRotation;
         planetYRotation = Quaternion.Euler(0f, accumulatedYRot, 0f);
     }
@@ -155,7 +144,7 @@ public class PlayerScript : MonoBehaviour
     {
         if (!deepSpace && firstContact)
         {
-            m_Rigidbody.MoveRotation(newRotation * Quaternion.AngleAxis( accumulatedYRot, Vector3.up));
+            m_Rigidbody.MoveRotation(newRotation * Quaternion.AngleAxis( accumulatedYRot, Vector3.up) );
         }
         else
         {
@@ -168,12 +157,12 @@ public class PlayerScript : MonoBehaviour
 
             if (leftRoll)
             {
-                m_Rigidbody.transform.localRotation *= Quaternion.AngleAxis(2f, Vector3.forward);
+                m_Rigidbody.transform.localRotation *= Quaternion.AngleAxis(60f * Time.deltaTime, Vector3.forward);
             }
 
             if (rightRoll)
             {
-                m_Rigidbody.transform.localRotation *= Quaternion.AngleAxis(-2f, Vector3.forward);
+                m_Rigidbody.transform.localRotation *= Quaternion.AngleAxis(-60f * Time.deltaTime, Vector3.forward);
             }
             
             
@@ -195,41 +184,47 @@ public class PlayerScript : MonoBehaviour
     Vector3 jumpForce;
     [SerializeField] Vector3 inputDirection;
     Vector3 spaceMovementForce;
+    float moveDownFloat;
+
     //Applies movement forces calculated in PlayerMovement.
     void applyMovement()
     {
+        Vector3 spaceVerticalMovement = moveUp * transform.up + moveDownFloat * transform.up;
         movementForce = playerMovement.Movement();
         if (!deepSpace && firstContact)
         {
-            
+            spaceMovementForce = new Vector3(0f, 0f, 0f);
             jumpForce = playerMovement.returnJumpMovementForce();
             m_Rigidbody.AddForce(movementForce, ForceMode.Force);
             m_Rigidbody.AddForce(jumpForce, ForceMode.Impulse);
+
+
+
         }
         else if (!firstContact)
         {
-            //Forward and right movement in space.
-
-            //Stores all planets in an array.
-            for (int i = 0; i < solarSystem.Length; i++)
-            {
-                Rigidbody planet = solarSystemRigidBodies[i];
-                RelativePlanetMovement orbitMovement = solarSystemMovement[i];
-
-                spaceMovementForce = movementForce + spaceMovementForce;
-                planet.MovePosition(planet.position + (spaceMovementForce * 0.1f + (transform.up * moveUp * 100f) + (orbitMovement.ReturnOrbit() * 1000f)) * -0.001f);
-            }
-            
-
-
-
-            
 
             if (moveDown)
             {
-                m_Rigidbody.AddForce(-100f * transform.up, ForceMode.Force);
+                moveDownFloat = -1;
             }
+            else
+            {
+                moveDownFloat = 0;
+            }
+
+            
+            spaceMovementForce += playerMovement.Movement() * 0.1f + spaceVerticalMovement * 10f;
+            m_Rigidbody.AddForce(spaceMovementForce, ForceMode.Force);
+
         }
+        // else if (!firstContact && !deepSpace)
+        // {
+        //     spaceMovementForce = playerMovement.Movement() * 0.1f + spaceVerticalMovement * 10f;
+        //     m_Rigidbody.AddForce(spaceMovementForce, ForceMode.Force);
+        // }
+
+        
     }
 
     //Applies gravity.

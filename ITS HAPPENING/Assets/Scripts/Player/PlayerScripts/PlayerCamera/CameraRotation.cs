@@ -1,5 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.PlayerLoop;
 using UnityEngine.UIElements;
 
@@ -37,8 +38,8 @@ public class CameraRotation : MonoBehaviour
     //Applies the position of the head object which is child to the playerobject.
     void applyPos()
     {
-        Vector3 target = playerTransform.position;
-        transform.position = Vector3.SmoothDamp(playerTransform.position, target, ref velocity, 0.05f);
+        Vector3 target = playerTransform.TransformPoint(new Vector3(0f, 0.3f, 0f));
+        transform.position = Vector3.SmoothDamp(playerTransform.TransformPoint(new Vector3(0f, 0.3f, 0f)), target, ref velocity, 0.05f);
     }
 
     
