@@ -72,4 +72,15 @@ public class Inputs : MonoBehaviour
         return interact;
     }
 
+    public bool StopInteract()
+    {
+        bool stopInteract = Input.GetKeyDown(KeyCode.LeftShift);
+        return stopInteract;
+    }
+
+    [SerializeField] float sensitivity;
+    public float Sensitivity()
+    {
+        return sensitivity;
+    }
 }

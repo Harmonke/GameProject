@@ -9,8 +9,7 @@ public class GetPlanet : MonoBehaviour
     private Planet planet;
 
     //This game object is the game object that every other planet orbits.
-    public GameObject centerPlanet;
-    Transform centerPlanetTransform;
+    
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -20,7 +19,7 @@ public class GetPlanet : MonoBehaviour
         findDeepSpace = GameObject.FindWithTag("DeepSpace");
         //Finds the Planet object/script within the Planet object.
         planet = findDeepSpace.GetComponent<Planet>();
-        centerPlanetTransform = centerPlanet.GetComponent<Transform>();
+        
     }
 
     void OnTriggerEnter(Collider other)
@@ -52,23 +51,16 @@ public class GetPlanet : MonoBehaviour
             }
 
             firstContact = true;
-            centerPlanet = collision.gameObject;
             
+
             
-            centerPlanetTransform = centerPlanet.GetComponent<Transform>();
         }
     }
 
-    public Vector3 ReturnCenterPosition()
-    {
-        return centerPlanetTransform.position;
-    }
+   
             
 
-    public GameObject ReturnCenterPlanet()
-    {
-        return centerPlanet;
-    }
+  
 
 
     

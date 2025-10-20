@@ -16,6 +16,9 @@ public class PlayerScript : MonoBehaviour
     
     GameObject inputObject;
     Inputs inputFile;
+    [SerializeField] GameObject spaceShipCockpit;
+    SpaceShipInteract spaceShipInteract;
+
 
     
 
@@ -38,6 +41,7 @@ public class PlayerScript : MonoBehaviour
         inputObject = GameObject.FindWithTag("InputObject");
         inputFile = inputObject.GetComponent<Inputs>();
         newRotation = Quaternion.Euler(0f, 0f, 0f);
+        spaceShipInteract = spaceShipCockpit.GetComponent<SpaceShipInteract>();
         
 
         
@@ -48,8 +52,12 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        applyMovement();
-        applyGravity();
+        if (!spaceShipInteract.returnPlayerSitting())
+        {
+            applyMovement();
+            applyGravity();
+        }
+        
         
         
         
@@ -59,13 +67,16 @@ public class PlayerScript : MonoBehaviour
 
     void Update()
     {
-        verticalDeepSpaceMovement();
-        GetAlignment();
-        GetNewRotation();
+        if (!spaceShipInteract.returnPlayerSitting())
+        {
+            verticalDeepSpaceMovement();
+            GetAlignment();
+            GetNewRotation();
         
-        GetRotation();
-        getAlignModeValues();
-        ApplyRotation();
+            GetRotation();
+            getAlignModeValues();
+            ApplyRotation();
+        }
     }
 
     [SerializeField] private float playerYRotation;
@@ -74,14 +85,13 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] private float playerXRotation;
 
 
-    [SerializeField] float sensitivity;
+    
 
     void GetRotation()
     {
-        playerYRotation = inputFile.PlayerYRotation() * sensitivity;
-        playerXRotation = inputFile.PlayerXRotation() * sensitivity;
+        playerYRotation = inputFile.PlayerYRotation() * inputFile.Sensitivity();
+        playerXRotation = inputFile.PlayerXRotation() * inputFile.Sensitivity();
         accumulatedYRot += playerYRotation;
-        planetYRotation = Quaternion.Euler(0f, accumulatedYRot, 0f);
     }
 
     Quaternion alignment;
@@ -91,7 +101,7 @@ public class PlayerScript : MonoBehaviour
     }
 
     [SerializeField] float accumulatedYRot;
-    [SerializeField] Quaternion planetYRotation;
+    
     //Adds the alignedRotation and the playerYRotation together.
     void GetNewRotation()
     {

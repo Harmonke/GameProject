@@ -62,7 +62,7 @@ public class PlayerInteract : MonoBehaviour
     void RunInteractable()
     {
         if (interactable && inputFile.Interact())
-        interactableScript.InteractBehavior();
+        interactableScript.Interact();
     }
 
    

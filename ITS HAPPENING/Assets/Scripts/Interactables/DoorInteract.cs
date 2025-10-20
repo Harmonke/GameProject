@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 
-public class Interactable : MonoBehaviour
+public class DoorInteract : Interactable
 {
 
     GameObject player;
@@ -23,7 +23,7 @@ public class Interactable : MonoBehaviour
 
     public IEnumerator Coroutine()
     {
-        if(!corRunning)
+        if (!corRunning)
         {
             if (doorClosed)
             {
@@ -37,7 +37,7 @@ public class Interactable : MonoBehaviour
                     total += openRotation;
                     yield return null;
                 }
-                
+
                 doorClosed = false;
                 corRunning = false;
 
@@ -54,15 +54,17 @@ public class Interactable : MonoBehaviour
                     total -= openRotation;
                     yield return null;
                 }
-                
+
                 doorClosed = true;
                 corRunning = false;
             }
         }
     }
-    
-    public void InteractBehavior()
+
+
+    public override void Interact()
     {
         StartCoroutine(Coroutine());
     }
+    
 }

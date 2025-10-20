@@ -24,7 +24,7 @@ public class RelativePlanetMovement : MonoBehaviour
 
     Vector3 ReturnOrbit()
     {
-        Vector3 center = getPlanet.ReturnCenterPosition();
+        Vector3 center = new Vector3(0f, 0f, 0f);
 
         // offset vector (from center to planet)
         Vector3 offset = transform.position - center;
