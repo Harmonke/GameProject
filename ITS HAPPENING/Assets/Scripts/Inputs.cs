@@ -36,19 +36,34 @@ public class Inputs : MonoBehaviour
         return verticalInput;
     }
 
-    Boolean leftRoll;
+    
 
-    public Boolean LeftRollInput()
+    public int LeftRollInput()
     {
-        leftRoll = Input.GetKey("q");
-        return leftRoll;
+        bool leftRoll = Input.GetKey("q");
+        if (leftRoll)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+        
     }
 
-    Boolean rightRoll;
-    public Boolean RightRollInput()
+    
+    public int RightRollInput()
     {
-        rightRoll = Input.GetKey("e");
-        return rightRoll;
+        bool rightRoll = Input.GetKey("e");
+        if (rightRoll)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
     }
 
     float moveUp;
@@ -58,11 +73,18 @@ public class Inputs : MonoBehaviour
         return moveUp;
     }
 
-    Boolean moveDown;
-    public Boolean MoveDown()
+    
+    public int MoveDown()
     {
-        moveDown = Input.GetKey(KeyCode.LeftControl);
-        return moveDown;
+        bool moveDown = Input.GetKey(KeyCode.LeftControl);
+        if (moveDown)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
     }
 
     bool interact;

@@ -18,12 +18,7 @@ public class AlignRotationToPlanet : MonoBehaviour
         resetBaseRotation();
     }
 
-    // Update is called once per frame
-    void LateUpdate()
-    {
-
-        
-    }
+    
 
     void resetBaseRotation()
     {
@@ -44,7 +39,7 @@ public class AlignRotationToPlanet : MonoBehaviour
     //Calculates the playerobject rotation so that its always perpendicular to the surface, also uses left-right mouserotation.
     public Quaternion alignRotationToPlanet()
     {
-        planetPlayerDistance = getPlanet.GroundPlayerDistance();
+        planetPlayerDistance = getPlanet.CorePlayerDistance();
         planetDirection = planetPlayerDistance.normalized;
         transformUp = transform.up;
 

@@ -137,7 +137,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Planet
   gravityConstant: 100
-  airResistanceConstant: 10
   deepSpace: 0
 --- !u!114 &55869682
 MonoBehaviour:
@@ -1992,7 +1991,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Planet
   gravityConstant: 100
-  airResistanceConstant: 0
   deepSpace: 0
 --- !u!114 &1456289756
 MonoBehaviour:
@@ -2361,7 +2359,7 @@ Rigidbody:
   m_GameObject: {fileID: 1542157672}
   serializedVersion: 5
   m_Mass: 1000
-  m_LinearDamping: 0
+  m_LinearDamping: 10
   m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -2409,18 +2407,6 @@ MonoBehaviour:
   spaceRotation: 0
   torqueSpeed: 10
   upAndDownForce: 1
---- !u!114 &1542157680
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1542157672}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30821277240cb914e940c751ae7a178f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AirResistance
 --- !u!1 &1565579252
 GameObject:
   m_ObjectHideFlags: 0
@@ -2694,7 +2680,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 23b88c960367eaf4e9bb160a0007bf13, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 477.7
+      value: 591.3988
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 23b88c960367eaf4e9bb160a0007bf13, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2898,9 +2884,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 23b88c960367eaf4e9bb160a0007bf13, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1542157679}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 23b88c960367eaf4e9bb160a0007bf13, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1542157680}
     - targetCorrespondingSourceObject: {fileID: -8068073526183931155, guid: 23b88c960367eaf4e9bb160a0007bf13, type: 3}
       insertIndex: -1
       addedObject: {fileID: 576147958}
@@ -3294,7 +3277,7 @@ Transform:
   m_GameObject: {fileID: 1937401172}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 481.87018, y: 48.076, z: 9.38}
+  m_LocalPosition: {x: 595.569, y: 48.076, z: 9.38}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3309,7 +3292,7 @@ Rigidbody:
   m_GameObject: {fileID: 1937401172}
   serializedVersion: 5
   m_Mass: 1
-  m_LinearDamping: 0
+  m_LinearDamping: 10
   m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -3470,7 +3453,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gravityConstant: 0
-  airResistanceConstant: 0
   deepSpace: 1
 --- !u!4 &2015454197
 Transform:

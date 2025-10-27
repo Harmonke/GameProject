@@ -86,20 +86,24 @@ public class GetPlanet : MonoBehaviour
         return planet.returnGravityConstant();
     }
 
+    public float PlanetAirResistanceConstant()
+    {
+        return planet.returnAirResistanceConstant();
+    }
+
     //Gets radius from planet script.
     public float PlanetRadius()
     {
         return planet.returnRadius();
     }
 
-    Vector3 planetPosition;
-    Vector3 playerPosition;
+    
     [SerializeField] Vector3 planetPlayerDistance;
     //Calculates the distance between the planets surface and the player.
-    public Vector3 GroundPlayerDistance()
+    public Vector3 CorePlayerDistance()
     {
-        planetPosition = planet.returnPosition();
-        playerPosition = transform.position;
+        Vector3 planetPosition = planet.returnPosition();
+        Vector3 playerPosition = transform.position;
         planetPlayerDistance = playerPosition - planetPosition;
         return planetPlayerDistance;
     }

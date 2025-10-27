@@ -5,29 +5,35 @@ public class SpaceShip : MonoBehaviour
     public GameObject player;
     private PlayerInteract playerInteract;
     Gravity gravity;
+    SpaceMovement spaceMovement;
+    AirResistance airResistance;
     Rigidbody rb;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         player = GameObject.FindWithTag("Player");
         playerInteract = player.GetComponent<PlayerInteract>();
+
         gravity = GetComponent<Gravity>();
+
+        spaceMovement = GetComponent<SpaceMovement>();
+
+        airResistance = GetComponent<AirResistance>();
+
         rb = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
+    // FixedUpdate is called once every physics tick.
     void FixedUpdate()
     {
-        applyGravity();
-        rb.angularVelocity = Vector3.Lerp(rb.angularVelocity, Vector3.zero, Time.fixedDeltaTime * 2f);
+        airResistance.ApplyAirResistance();
+        gravity.ApplyPlanetGravity();
+        spaceMovement.ApplySpaceRotation();
+        spaceMovement.ApplySpaceMovement();
     }
 
-    //Applies gravity.
-    void applyGravity()
-    {
-        rb.AddForce(gravity.planetGravity() * rb.mass, ForceMode.Force);
-    }
-
+    
+    //Returns spaceship position.
     public Vector3 ReturnPosition()
     {
         return transform.position;

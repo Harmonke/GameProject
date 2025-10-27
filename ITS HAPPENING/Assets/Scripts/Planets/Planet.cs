@@ -19,6 +19,13 @@ public class Planet : MonoBehaviour
         return gravityConstant;
     }
 
+    public float airResistanceConstant;
+    //returns the planet's airresistance constant!
+    public float returnAirResistanceConstant()
+    {
+        return airResistanceConstant;
+    }
+
     //Returns the Planet's radius.
     public float returnRadius()
     {

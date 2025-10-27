@@ -55,7 +55,7 @@ public class PlayerScript : MonoBehaviour
         if (!spaceShipInteract.returnPlayerSitting())
         {
             applyMovement();
-            applyGravity();
+            gravity.ApplyPlanetGravity();
         }
         
         
@@ -70,7 +70,6 @@ public class PlayerScript : MonoBehaviour
         if (!spaceShipInteract.returnPlayerSitting())
         {
             verticalDeepSpaceMovement();
-            GetAlignment();
             GetNewRotation();
         
             GetRotation();
@@ -80,13 +79,7 @@ public class PlayerScript : MonoBehaviour
     }
 
     [SerializeField] private float playerYRotation;
-    
-    
     [SerializeField] private float playerXRotation;
-
-
-    
-
     void GetRotation()
     {
         playerYRotation = inputFile.PlayerYRotation() * inputFile.Sensitivity();
@@ -94,11 +87,7 @@ public class PlayerScript : MonoBehaviour
         accumulatedYRot += playerYRotation;
     }
 
-    Quaternion alignment;
-    void GetAlignment()
-    {
-        alignment = alignRotation.alignRotationToPlanet();
-    }
+    
 
     [SerializeField] float accumulatedYRot;
     
@@ -108,7 +97,7 @@ public class PlayerScript : MonoBehaviour
         
         if (!deepSpace && firstContact)
         {
-            newRotation = alignment;
+            newRotation = alignRotation.alignRotationToPlanet();
         }
         else
         {
@@ -158,30 +147,13 @@ public class PlayerScript : MonoBehaviour
         }
         else
         {
-
-            Boolean leftRoll = inputFile.LeftRollInput();
-            Boolean rightRoll = inputFile.RightRollInput();
-
-            m_Rigidbody.transform.localRotation *= Quaternion.AngleAxis(playerYRotation, Vector3.up);
-            m_Rigidbody.transform.localRotation *= Quaternion.AngleAxis(-playerXRotation, Vector3.right);
-
-            if (leftRoll)
-            {
-                m_Rigidbody.transform.localRotation *= Quaternion.AngleAxis(60f * Time.deltaTime, Vector3.forward);
-            }
-
-            if (rightRoll)
-            {
-                m_Rigidbody.transform.localRotation *= Quaternion.AngleAxis(-60f * Time.deltaTime, Vector3.forward);
-            }
-            
             
         }
         
     }
 
     float moveUp;
-    Boolean moveDown;
+    int moveDown;
     void verticalDeepSpaceMovement()
     {
         moveUp = inputFile.MoveUp();
@@ -203,7 +175,7 @@ public class PlayerScript : MonoBehaviour
         movementForce = playerMovement.Movement();
         if (!deepSpace && firstContact)
         {
-            spaceMovementForce = new Vector3(0f, 0f, 0f);
+    
             jumpForce = playerMovement.returnJumpMovementForce();
             m_Rigidbody.AddForce(movementForce, ForceMode.Force);
             m_Rigidbody.AddForce(jumpForce, ForceMode.Impulse);
@@ -214,32 +186,12 @@ public class PlayerScript : MonoBehaviour
         else if (!firstContact)
         {
 
-            if (moveDown)
-            {
-                moveDownFloat = -1;
-            }
-            else
-            {
-                moveDownFloat = 0;
-            }
-
-            
-            spaceMovementForce += playerMovement.Movement() * 0.1f + spaceVerticalMovement * 10f;
-            m_Rigidbody.AddForce(spaceMovementForce, ForceMode.Force);
 
         }
-        // else if (!firstContact && !deepSpace)
-        // {
-        //     spaceMovementForce = playerMovement.Movement() * 0.1f + spaceVerticalMovement * 10f;
-        //     m_Rigidbody.AddForce(spaceMovementForce, ForceMode.Force);
-        // }
+        
 
         
     }
 
-    //Applies gravity.
-    void applyGravity()
-    {
-        m_Rigidbody.AddForce(gravity.planetGravity(), ForceMode.Force);
-    }
+    
 }
