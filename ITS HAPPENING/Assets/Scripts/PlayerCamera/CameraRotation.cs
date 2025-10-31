@@ -10,7 +10,7 @@ public class CameraRotation : MonoBehaviour
 
 
     public GameObject player;
-    private PlayerScript playerScript;
+    private PlayerRotation playerRotation;
     private Transform playerTransform;
     private Vector3 velocity = Vector3.zero;
     
@@ -21,7 +21,7 @@ public class CameraRotation : MonoBehaviour
         //Finds GameObject in unity with the "Player" tag and assigns it to player.
         player = GameObject.FindWithTag("Player");
         //Finds the PlayerMovement object/script within the player object.
-        playerScript = player.GetComponent<PlayerScript>();
+        playerRotation = player.GetComponent<PlayerRotation>();
         playerTransform = player.GetComponent<Transform>();
 
         
@@ -47,7 +47,7 @@ public class CameraRotation : MonoBehaviour
     //Applies calculated Rotations, takes YRotation + alignedrotation from playerScript.
     public void applyRotation()
     {
-        transform.rotation = Quaternion.Slerp(transform.rotation, playerScript.returnRotation(), 0.7f);
+        transform.rotation = Quaternion.Slerp(transform.rotation, playerRotation.returnRotation(), 0.7f);
     }
 
     
