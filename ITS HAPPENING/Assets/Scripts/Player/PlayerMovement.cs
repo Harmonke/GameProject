@@ -7,17 +7,6 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-
-    
-    public float horizontalInput;
-    float jumpInput;
-    public float verticalInput;
-    
-
-    public float movementSpeed;
-    public float jumpForce;
-    public bool onGround;
-
     GameObject inputObject;
     Inputs inputFile;
 
@@ -32,51 +21,47 @@ public class PlayerMovement : MonoBehaviour
     // FixedUpdate is called once per set amount of time (for physics related stuff like moving).
     void FixedUpdate()
     {
-        
-        lockMouse();
-        Jump();
+        LockMouse();
     }
 
 
 
-    Vector3 movementForce;
-    Vector3 inputDirection;
-
-    //function calculating and enforcing the force on the rigidbody based on inputs and characters y-rotation.
-    public Vector3 Movement()
+    Vector3 CalculateInputDirection()
     {
         //Floats storing the value of input based on inputs selected in input manager, can either be -1, 0 or 1.
-        horizontalInput = inputFile.HorizontalInput();
-        verticalInput = inputFile.VerticalInput();
-
-        //Calculates the movementForce.
-        inputDirection = (transform.forward * verticalInput) + (transform.right * horizontalInput);
-        movementForce = inputDirection.normalized * movementSpeed;
-        return movementForce;
-    }
-
-    public Vector3 ReturnInputDirection()
-    {
+        float horizontalInput = inputFile.HorizontalInput();
+        float verticalInput = inputFile.VerticalInput();
+        Vector3 inputDirection = (transform.forward * verticalInput) + (transform.right * horizontalInput);
         return inputDirection;
     }
 
+
+    [SerializeField] float movementSpeed;
+    //function calculating and enforcing the force on the rigidbody based on inputs and characters y-rotation.
+    public Vector3 CalculateMovement()
+    {
+        //Calculates the movementForce.
+        Vector3 movementForce = CalculateInputDirection().normalized * movementSpeed;
+        return movementForce;
+    }
     
+    public bool onGround;
     //cooldowns to make consecutive jumps slower.
-    IEnumerator onGroundPause()
+    IEnumerator OnGroundPause()
     {
 
         yield return new WaitForSeconds(0.1f); // 100 ms delay — adjust as needed
         onGround = true;
+        
     }
 
-    
 
     //Checks if player is grounded
     bool CheckGrounded()
     {
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), 1.1f))
         {
-            StartCoroutine(onGroundPause());
+            StartCoroutine(OnGroundPause());
         }
         else
         {
@@ -86,48 +71,26 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    Vector3 jumpMovementForce;
-    //Applies jump force based on up direction.
-    void Jump()
-    {
-        jumpForce = 40f;
-        jumpInput = inputFile.MoveUp();
 
+    [SerializeField] float jumpMovementForce;
+    //Applies jump force based on up direction.
+    public Vector3 CalculateJumpForce()
+    {
+        float jumpInput = inputFile.MoveUp();
+        Vector3 jumpForce = new Vector3(0f, 0f, 0f);
         if (CheckGrounded())
         {
-            jumpMovementForce = transform.up * jumpForce * jumpInput;
+            jumpForce = transform.up * jumpMovementForce * jumpInput;
         }
-        else
-        {
-            jumpMovementForce = new Vector3(0f, 0f, 0f);
-        }
+        
+        return jumpForce;
     }
-
-
-
-    public Vector3 returnJumpMovementForce()
-    {
-        return jumpMovementForce;
-    }
-
 
     //Locks mouse to the middle of screen and makes it invisibile.
-    void lockMouse()
+    void LockMouse()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
 
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
 }

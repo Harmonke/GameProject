@@ -57,17 +57,7 @@ public class GetPlanet : MonoBehaviour
         }
     }
 
-   
-            
 
-  
-
-
-    
-
-    
-
-    
 
     void LateUpdate()
     {
@@ -98,13 +88,13 @@ public class GetPlanet : MonoBehaviour
     }
 
     
-    [SerializeField] Vector3 planetPlayerDistance;
+    
     //Calculates the distance between the planets surface and the player.
     public Vector3 CorePlayerDistance()
     {
         Vector3 planetPosition = planet.returnPosition();
         Vector3 playerPosition = transform.position;
-        planetPlayerDistance = playerPosition - planetPosition;
+        Vector3 planetPlayerDistance = playerPosition - planetPosition;
         return planetPlayerDistance;
     }
 

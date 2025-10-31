@@ -2338,6 +2338,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpaceShip
   player: {fileID: 0}
+  cockpit: {fileID: 939116034}
 --- !u!114 &1542157676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2392,6 +2393,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FollowPlanet
   findDeepSpace: {fileID: 0}
+  planet: {fileID: 0}
+  planetTransform: {fileID: 0}
 --- !u!114 &1542157679
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2404,10 +2407,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bb0bb26c6d5f7b4792ea1135412acaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpaceShipMovement
-  cockpit: {fileID: 939116034}
-  movementSpeed: 50
-  spaceRotation: 0
+  movementSpeed: 20
   torqueSpeed: 10
+  leftRollSpeed: 0.3
+  rightRollSpeed: 0.3
   upAndDownForce: 1
 --- !u!114 &1542157680
 MonoBehaviour:
@@ -3199,6 +3202,7 @@ GameObject:
   - component: {fileID: 1937401183}
   - component: {fileID: 1937401185}
   - component: {fileID: 1937401186}
+  - component: {fileID: 1937401187}
   m_Layer: 9
   m_Name: Capsule
   m_TagString: Player
@@ -3325,7 +3329,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 112
+  m_Constraints: 0
   m_CollisionDetection: 2
 --- !u!114 &1937401180
 MonoBehaviour:
@@ -3435,6 +3439,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   output: {fileID: 564547548}
+--- !u!114 &1937401187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1937401172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bb0bb26c6d5f7b4792ea1135412acaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpaceMovement
+  movementSpeed: 10
+  torqueSpeed: 0.1
+  leftRollSpeed: 0.3
+  rightRollSpeed: 0.3
+  upAndDownForce: 2
 --- !u!4 &1976668830 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1f1a01514b7b5f5408b0d57a5d7ea4a4, type: 3}

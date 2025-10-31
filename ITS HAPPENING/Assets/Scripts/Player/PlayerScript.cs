@@ -18,6 +18,8 @@ public class PlayerScript : MonoBehaviour
     Inputs inputFile;
     [SerializeField] GameObject spaceShipCockpit;
     SpaceShipInteract spaceShipInteract;
+    SpaceMovement spaceMovement;
+
 
 
     
@@ -42,6 +44,7 @@ public class PlayerScript : MonoBehaviour
         inputFile = inputObject.GetComponent<Inputs>();
         newRotation = Quaternion.Euler(0f, 0f, 0f);
         spaceShipInteract = spaceShipCockpit.GetComponent<SpaceShipInteract>();
+        spaceMovement = GetComponent<SpaceMovement>();
         
 
         
@@ -57,29 +60,23 @@ public class PlayerScript : MonoBehaviour
             applyMovement();
             gravity.ApplyPlanetGravity();
         }
-        
-        
-        
-        
-        
-        
     }
 
     void Update()
     {
         if (!spaceShipInteract.returnPlayerSitting())
         {
-            verticalDeepSpaceMovement();
             GetNewRotation();
         
             GetRotation();
-            getAlignModeValues();
+            
             ApplyRotation();
         }
     }
 
     [SerializeField] private float playerYRotation;
     [SerializeField] private float playerXRotation;
+    [SerializeField] float accumulatedYRot;
     void GetRotation()
     {
         playerYRotation = inputFile.PlayerYRotation() * inputFile.Sensitivity();
@@ -89,13 +86,13 @@ public class PlayerScript : MonoBehaviour
 
     
 
-    [SerializeField] float accumulatedYRot;
+    
     
     //Adds the alignedRotation and the playerYRotation together.
     void GetNewRotation()
     {
         
-        if (!deepSpace && firstContact)
+        if (!GetDeepSpaceValue() && GetFirstContactValue())
         {
             newRotation = alignRotation.alignRotationToPlanet();
         }
@@ -107,25 +104,65 @@ public class PlayerScript : MonoBehaviour
 
     
 
-    Boolean deepSpace;
-    [SerializeField] Boolean firstContact;
+    
+    
     //Gets the values that determines if player should be aligned.
-    void getAlignModeValues()
+    bool GetDeepSpaceValue()
     {
-        deepSpace = getPlanet.returnDeepSpace();
-        firstContact = getPlanet.returnFirstContact();
+        return getPlanet.returnDeepSpace();
+    }
+
+    bool GetFirstContactValue()
+    {
+        return getPlanet.returnFirstContact();
+    }
+    
+    
+    //Applies the calculated rotation.
+    void ApplyRotation()
+    {
+        if (!GetDeepSpaceValue() && GetFirstContactValue())
+        {
+            m_Rigidbody.MoveRotation(newRotation * Quaternion.AngleAxis( accumulatedYRot, Vector3.up) );
+        }
+        else
+        {
+            spaceMovement.ApplySpaceRotation();
+        }
+        
+    }
+
+
+
+    
+    
+    
+    //Applies movement forces calculated in PlayerMovement.
+    void applyMovement()
+    {
+        Vector3 movementForce = playerMovement.CalculateMovement();
+        if (!GetDeepSpaceValue() && GetFirstContactValue())
+        {
+            Vector3 jumpForce = playerMovement.CalculateJumpForce();
+            m_Rigidbody.AddForce(movementForce, ForceMode.Force);
+            m_Rigidbody.AddForce(jumpForce, ForceMode.Impulse);
+        }
+        else if (!GetFirstContactValue())
+        {
+            spaceMovement.ApplySpaceMovement();
+        }
     }
     
     float accumulatedXRot;
-    Quaternion planetXRotation;
+    
     //Returns rotation to be used in CameraRotation file.
     public Quaternion returnRotation()
     {
-        if (!deepSpace && firstContact)
+        if (!GetDeepSpaceValue() && GetFirstContactValue())
         {
             accumulatedXRot += -playerXRotation;
             accumulatedXRot = Mathf.Clamp(accumulatedXRot, -80f, 80f);
-            planetXRotation = Quaternion.Euler(accumulatedXRot, 0f, 0f);
+            Quaternion planetXRotation = Quaternion.Euler(accumulatedXRot, 0f, 0f);
             return transform.rotation * planetXRotation;
         }
         else
@@ -134,63 +171,6 @@ public class PlayerScript : MonoBehaviour
             return transform.rotation;
         }
 
-    }
-
-   
-    
-    //Applies the calculated rotation.
-    void ApplyRotation()
-    {
-        if (!deepSpace && firstContact)
-        {
-            m_Rigidbody.MoveRotation(newRotation * Quaternion.AngleAxis( accumulatedYRot, Vector3.up) );
-        }
-        else
-        {
-            
-        }
-        
-    }
-
-    float moveUp;
-    int moveDown;
-    void verticalDeepSpaceMovement()
-    {
-        moveUp = inputFile.MoveUp();
-        moveDown = inputFile.MoveDown();
-    }
-
-    [SerializeField]
-    Vector3 movementForce;
-    [SerializeField]
-    Vector3 jumpForce;
-    [SerializeField] Vector3 inputDirection;
-    Vector3 spaceMovementForce;
-    float moveDownFloat;
-
-    //Applies movement forces calculated in PlayerMovement.
-    void applyMovement()
-    {
-        Vector3 spaceVerticalMovement = moveUp * transform.up + moveDownFloat * transform.up;
-        movementForce = playerMovement.Movement();
-        if (!deepSpace && firstContact)
-        {
-    
-            jumpForce = playerMovement.returnJumpMovementForce();
-            m_Rigidbody.AddForce(movementForce, ForceMode.Force);
-            m_Rigidbody.AddForce(jumpForce, ForceMode.Impulse);
-
-
-
-        }
-        else if (!firstContact)
-        {
-
-
-        }
-        
-
-        
     }
 
     

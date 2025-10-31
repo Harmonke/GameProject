@@ -8,6 +8,10 @@ public class SpaceShip : MonoBehaviour
     SpaceMovement spaceMovement;
     AirResistance airResistance;
     Rigidbody rb;
+
+    public GameObject cockpit;
+    SpaceShipInteract spaceShipInteract;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -20,6 +24,8 @@ public class SpaceShip : MonoBehaviour
 
         airResistance = GetComponent<AirResistance>();
 
+        spaceShipInteract = cockpit.GetComponent<SpaceShipInteract>();
+
         rb = GetComponent<Rigidbody>();
     }
 
@@ -28,8 +34,13 @@ public class SpaceShip : MonoBehaviour
     {
         airResistance.ApplyAirResistance();
         gravity.ApplyPlanetGravity();
-        spaceMovement.ApplySpaceRotation();
-        spaceMovement.ApplySpaceMovement();
+
+        if (spaceShipInteract.returnPlayerSitting())
+        {
+            spaceMovement.ApplySpaceRotation();
+            spaceMovement.ApplySpaceMovement();
+        }
+        
     }
 
     
