@@ -8,6 +8,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     GameObject inputObject;
+    Rigidbody rb;
     Inputs inputFile;
 
 
@@ -16,6 +17,7 @@ public class PlayerMovement : MonoBehaviour
     {
         inputObject = GameObject.FindWithTag("InputObject");
         inputFile = inputObject.GetComponent<Inputs>();
+        rb = GetComponent<Rigidbody>();
     }
 
     // FixedUpdate is called once per set amount of time (for physics related stuff like moving).
@@ -82,8 +84,17 @@ public class PlayerMovement : MonoBehaviour
         {
             jumpForce = transform.up * jumpMovementForce * jumpInput;
         }
-        
+
         return jumpForce;
+    }
+    
+    public void applyMovement()
+    {
+        Vector3 movementForce = CalculateMovement();
+        Vector3 jumpForce = CalculateJumpForce();
+        rb.AddForce(movementForce, ForceMode.Force);
+        rb.AddForce(jumpForce, ForceMode.Impulse);
+        
     }
 
     //Locks mouse to the middle of screen and makes it invisibile.

@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 
 public class PlayerScript : MonoBehaviour
 {
-    public GameObject cam;
+    
     
     AlignRotationToPlanet alignRotation;
     PlayerMovement playerMovement;
@@ -14,8 +14,7 @@ public class PlayerScript : MonoBehaviour
     GetPlanet getPlanet;
     Rigidbody m_Rigidbody;
     
-    GameObject inputObject;
-    Inputs inputFile;
+    
     [SerializeField] GameObject spaceShipCockpit;
     SpaceShipInteract spaceShipInteract;
     SpaceMovement spaceMovement;
@@ -33,15 +32,14 @@ public class PlayerScript : MonoBehaviour
     void Start()
     {
         //Finds GameObject in unity with the "MainCamera" tag and assigns it to the cam field.
-        cam = GameObject.FindWithTag("MainCamera");
+        
         //Finds the CameraRotation object/script within the Camera object.
         alignRotation = GetComponent<AlignRotationToPlanet>();
         playerMovement = GetComponent<PlayerMovement>();
         gravity = GetComponent<Gravity>();
         getPlanet = GetComponent<GetPlanet>();
         m_Rigidbody = GetComponent<Rigidbody>();
-        inputObject = GameObject.FindWithTag("InputObject");
-        inputFile = inputObject.GetComponent<Inputs>();
+        
         newRotation = Quaternion.Euler(0f, 0f, 0f);
         spaceShipInteract = spaceShipCockpit.GetComponent<SpaceShipInteract>();
         spaceMovement = GetComponent<SpaceMovement>();
@@ -129,7 +127,6 @@ public class PlayerScript : MonoBehaviour
         {
             spaceMovement.ApplySpaceRotation();
         }
-        
     }
 
 
@@ -140,12 +137,9 @@ public class PlayerScript : MonoBehaviour
     //Applies movement forces calculated in PlayerMovement.
     void applyMovement()
     {
-        Vector3 movementForce = playerMovement.CalculateMovement();
         if (!GetDeepSpaceValue() && GetFirstContactValue())
         {
-            Vector3 jumpForce = playerMovement.CalculateJumpForce();
-            m_Rigidbody.AddForce(movementForce, ForceMode.Force);
-            m_Rigidbody.AddForce(jumpForce, ForceMode.Impulse);
+            playerMovement.applyMovement();
         }
         else if (!GetFirstContactValue())
         {
