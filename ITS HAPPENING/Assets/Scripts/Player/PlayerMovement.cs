@@ -87,14 +87,19 @@ public class PlayerMovement : MonoBehaviour
 
         return jumpForce;
     }
-    
-    public void applyMovement()
+
+    public void ApplyMovement()
     {
         Vector3 movementForce = CalculateMovement();
         Vector3 jumpForce = CalculateJumpForce();
         rb.AddForce(movementForce, ForceMode.Force);
         rb.AddForce(jumpForce, ForceMode.Impulse);
-        
+
+    }
+    
+    public void SetLinearDamping()
+    {
+        rb.linearDamping = 10f;
     }
 
     //Locks mouse to the middle of screen and makes it invisibile.

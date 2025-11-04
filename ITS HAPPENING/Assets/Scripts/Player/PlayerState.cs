@@ -9,6 +9,7 @@ public class PlayerState : MonoBehaviour
         getPlanet = GetComponent<GetPlanet>();
     }
 
+    
     public bool OnPlanet()
     {
         if (!getPlanet.returnDeepSpace() && getPlanet.returnFirstContact())
@@ -21,6 +22,7 @@ public class PlayerState : MonoBehaviour
         }
     }
 
+
     public bool InAtmosphere()
     {
         if (!getPlanet.returnDeepSpace() && getPlanet.returnFirstContact())
@@ -32,6 +34,7 @@ public class PlayerState : MonoBehaviour
             return false;
         }
     }
+
 
     public bool InSpace()
     {

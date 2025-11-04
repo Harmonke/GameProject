@@ -47,7 +47,7 @@ public class CameraRotation : MonoBehaviour
     //Applies calculated Rotations, takes YRotation + alignedrotation from playerScript.
     public void applyRotation()
     {
-        transform.rotation = Quaternion.Slerp(transform.rotation, playerRotation.returnRotation(), 0.7f);
+        transform.rotation = Quaternion.Slerp(transform.rotation, playerRotation.ReturnRotation(), 0.7f);
     }
 
     

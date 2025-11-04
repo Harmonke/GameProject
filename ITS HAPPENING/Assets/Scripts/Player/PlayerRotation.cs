@@ -24,14 +24,17 @@ public class PlayerRotation : MonoBehaviour
         
     }
 
+   
     // Update is called once per frame
     void Update()
     {
         GetRotation();
         CalculateAccumulatedRotation();
         GetNewRotation();
+        SetRotationConstraints();
     }
-    
+
+
     [SerializeField] private float playerYRotation;
     [SerializeField] private float playerXRotation;
     [SerializeField] float accumulatedYRot;
@@ -69,9 +72,9 @@ public class PlayerRotation : MonoBehaviour
     }
     
     float accumulatedXRot;
-    
+
     //Returns rotation to be used in CameraRotation file.
-    public Quaternion returnRotation()
+    public Quaternion ReturnRotation()
     {
         if (playerState.OnPlanet())
         {
@@ -85,6 +88,18 @@ public class PlayerRotation : MonoBehaviour
             accumulatedXRot = 0f;
             return transform.rotation;
         }
-
     }
+
+    public void SetRotationConstraints()
+    {
+        if (playerState.OnPlanet())
+        {
+            rb.freezeRotation = true;
+        }
+        else
+        {
+            rb.freezeRotation = false;
+        }
+    }
+    
 }

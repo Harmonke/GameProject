@@ -60,8 +60,9 @@ public class SpaceMovement : MonoBehaviour
     }
 
 
-    
+
     [SerializeField] float upAndDownForce;
+    [SerializeField] Vector3 inputDirection;
     //Calculates and returns the spaceMovementForce based on inputs. 
     public void ApplySpaceMovement()
     {
@@ -70,7 +71,7 @@ public class SpaceMovement : MonoBehaviour
         float verticalInput = inputScript.VerticalInput();
 
         //Calculates the wasd movementForce.
-        Vector3 inputDirection = (transform.forward * verticalInput) + (transform.right * horizontalInput);
+        inputDirection = (transform.forward * verticalInput) + (transform.right * horizontalInput);
         Vector3 movementForce = inputDirection.normalized * spaceShipMovementSpeed;
 
         //Calculates the space/ctrl movementForce.
@@ -81,6 +82,12 @@ public class SpaceMovement : MonoBehaviour
         //Combines the forces and applies them.
         Vector3 spaceMovementForce = movementForce + spaceVerticalMovement;
         rb.AddForce(spaceMovementForce, ForceMode.Force);
+    }
+
+
+    public void SetLinearDamping()
+    {
+        rb.linearDamping = 0f;
     }
     
 }

@@ -11,9 +11,11 @@ public class PlayerScript : MonoBehaviour
     
     PlayerMovement playerMovement;
     Gravity gravity;
+    AirResistance airResistance;
 
 
     PlayerState playerState;
+    PlayerRotation playerRotation;
     
     [SerializeField] GameObject spaceShipCockpit;
     SpaceShipInteract spaceShipInteract;
@@ -35,6 +37,8 @@ public class PlayerScript : MonoBehaviour
         playerState = GetComponent<PlayerState>();
         playerMovement = GetComponent<PlayerMovement>();
         gravity = GetComponent<Gravity>();
+        airResistance = GetComponent<AirResistance>();
+        playerRotation = GetComponent<PlayerRotation>();
         
         
         spaceShipInteract = spaceShipCockpit.GetComponent<SpaceShipInteract>();
@@ -60,26 +64,18 @@ public class PlayerScript : MonoBehaviour
     {
         if (!spaceShipInteract.returnPlayerSitting())
         {
-            
+
             ApplyRotation();
         }
     }
 
-    
-
-    
-
-    
-    
-    
-    
     
     //Applies the calculated rotation.
     void ApplyRotation()
     {
         if (playerState.OnPlanet())
         {
-            
+            playerRotation.ApplyRotation();
         }
         else
         {
@@ -88,21 +84,24 @@ public class PlayerScript : MonoBehaviour
     }
 
 
-
-    
-    
-    
     //Applies movement forces calculated in PlayerMovement.
     void applyMovement()
     {
         if (playerState.OnPlanet())
         {
-            playerMovement.applyMovement();
+            playerMovement.ApplyMovement();
+            playerMovement.SetLinearDamping();
         }
         else
         {
             spaceMovement.ApplySpaceMovement();
+            spaceMovement.SetLinearDamping();
         }
+    }
+
+    void ApplyAirResistance()
+    {
+        airResistance.ApplyAirResistance();
     }
     
     

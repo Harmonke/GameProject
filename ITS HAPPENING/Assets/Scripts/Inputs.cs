@@ -22,17 +22,17 @@ public class Inputs : MonoBehaviour
         return playerXRotation;
     }
 
-    float horizontalInput;
+    
     public float HorizontalInput()
     {
-        horizontalInput = Input.GetAxisRaw("Horizontal");
+        float horizontalInput = Input.GetAxisRaw("Horizontal");
         return horizontalInput;
     }
 
-    float verticalInput;
+    
     public float VerticalInput()
     {
-        verticalInput = Input.GetAxisRaw("Vertical");
+        float verticalInput = Input.GetAxisRaw("Vertical");
         return verticalInput;
     }
 
