@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -7,6 +9,8 @@ public class GetPlanet : MonoBehaviour
 {
     public GameObject findDeepSpace;
     private Planet planet;
+
+    [SerializeField] Planet[] gravityPlanets;
 
     //This game object is the game object that every other planet orbits.
     
@@ -19,6 +23,8 @@ public class GetPlanet : MonoBehaviour
         findDeepSpace = GameObject.FindWithTag("DeepSpace");
         //Finds the Planet object/script within the Planet object.
         planet = findDeepSpace.GetComponent<Planet>();
+
+        
         
     }
 
@@ -65,37 +71,65 @@ public class GetPlanet : MonoBehaviour
     }
 
     //Gets position from planet script.
-    public Vector3 PlanetPosition()
+    public Vector3[] PlanetPositions()
     {
-        return planet.returnPosition();
+        Vector3[] planetPositions = new Vector3[gravityPlanets.Length];
+        for (int i = 0; i < gravityPlanets.Length; i += 1)
+        {
+            planetPositions[i] = gravityPlanets[i].returnPosition();
+        }
+        return planetPositions;
     }
 
     //Gets gravityconstant from planet script.
-    public float PlanetGravityConstant()
+    public float[] PlanetGravityConstants()
     {
-        return planet.returnGravityConstant();
+        float[] planetGravityConstants = new float[gravityPlanets.Length];
+        for (int i = 0; i < gravityPlanets.Length; i += 1)
+        {
+            planetGravityConstants[i] = gravityPlanets[i].returnGravityConstant();
+        }
+        return planetGravityConstants;
+        
     }
 
-    public float PlanetAirResistanceConstant()
-    {
-        return planet.returnAirResistanceConstant();
-    }
 
     //Gets radius from planet script.
-    public float PlanetRadius()
+    public float[] PlanetRadiuses()
     {
-        return planet.returnRadius();
+        float[] planetRadiuses = new float[gravityPlanets.Length];
+        for (int i = 0; i < gravityPlanets.Length; i += 1)
+        {
+            planetRadiuses[i] = gravityPlanets[i].returnRadius();
+        }
+        return planetRadiuses;
+        
     }
 
-    
-    
-    //Calculates the distance between the planets surface and the player.
+
+    //Calculates the distance between the planets core and the player
     public Vector3 CorePlayerDistance()
     {
         Vector3 planetPosition = planet.returnPosition();
         Vector3 playerPosition = transform.position;
-        Vector3 planetPlayerDistance = playerPosition - planetPosition;
-        return planetPlayerDistance;
+        Vector3 corePlayerDistance = playerPosition - planetPosition;
+        return corePlayerDistance;
+    }
+
+
+    //Calculates the distance between the planets core and the player and puts it in an array.
+    public Vector3[] CorePlayerDistances()
+    {
+        Vector3[] corePlayerDistances = new Vector3[PlanetPositions().Length];
+        for (int i = 0; i < PlanetPositions().Length; i += 1)
+        {
+            Vector3 planetPosition = PlanetPositions()[i];
+            Vector3 playerPosition = transform.position;
+            Vector3 corePlayerDistance = playerPosition - planetPosition;
+            corePlayerDistances[i] = corePlayerDistance;
+        }
+
+        return corePlayerDistances;
     }
 
     

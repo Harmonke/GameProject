@@ -11,9 +11,6 @@ public class PlayerScript : MonoBehaviour
     
     PlayerMovement playerMovement;
     Gravity gravity;
-    AirResistance airResistance;
-
-
     PlayerState playerState;
     PlayerRotation playerRotation;
     
@@ -37,7 +34,6 @@ public class PlayerScript : MonoBehaviour
         playerState = GetComponent<PlayerState>();
         playerMovement = GetComponent<PlayerMovement>();
         gravity = GetComponent<Gravity>();
-        airResistance = GetComponent<AirResistance>();
         playerRotation = GetComponent<PlayerRotation>();
         
         
@@ -99,12 +95,4 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    void ApplyAirResistance()
-    {
-        airResistance.ApplyAirResistance();
-    }
-    
-    
-
-    
 }

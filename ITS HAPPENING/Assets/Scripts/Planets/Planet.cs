@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Planet : MonoBehaviour
 {
-
+    
     //Returns Planet's position.
     public Vector3 returnPosition()
     {
@@ -19,17 +19,11 @@ public class Planet : MonoBehaviour
         return gravityConstant;
     }
 
-    public float airResistanceConstant;
-    //returns the planet's airresistance constant!
-    public float returnAirResistanceConstant()
-    {
-        return airResistanceConstant;
-    }
 
     //Returns the Planet's radius.
     public float returnRadius()
     {
-        return transform.localScale.x;
+        return transform.localScale.x * 0.856246f; //This float is here cuz the scale of the planet is wonky.
     }
 
     public Boolean deepSpace;
