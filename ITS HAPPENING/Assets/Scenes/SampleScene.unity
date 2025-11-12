@@ -151,6 +151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RelativePlanetMovement
   player: {fileID: 0}
+  velocity: {x: 0, y: 0, z: 0}
 --- !u!135 &55869683
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2005,6 +2006,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RelativePlanetMovement
   player: {fileID: 0}
+  velocity: {x: 0, y: 0, z: 0}
 --- !u!135 &1456289757
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2350,7 +2352,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GetPlanet
   findDeepSpace: {fileID: 0}
-  gravityPlanets: []
 --- !u!54 &1542157677
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2745,11 +2746,11 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 0b1f82e29bc1fd349ab78f82ee66a72d, type: 2}
     - target: {fileID: -2067211441028266698, guid: 23b88c960367eaf4e9bb160a0007bf13, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -774.7
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -2067211441028266698, guid: 23b88c960367eaf4e9bb160a0007bf13, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -517.3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -2067211441028266698, guid: 23b88c960367eaf4e9bb160a0007bf13, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3266,7 +3267,7 @@ Transform:
   m_GameObject: {fileID: 1937401172}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1059.1, y: 47.8, z: 438.3}
+  m_LocalPosition: {x: 1359.1, y: 47.8, z: -76.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3369,9 +3370,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   findDeepSpace: {fileID: 2015454195}
-  gravityPlanets:
-  - {fileID: 55869681}
-  - {fileID: 1456289755}
 --- !u!114 &1937401185
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
 using System;
+using UnityEditor.Callbacks;
 using UnityEngine;
 
 public class Planet : MonoBehaviour
@@ -26,10 +27,12 @@ public class Planet : MonoBehaviour
         return transform.localScale.x * 0.856246f; //This float is here cuz the scale of the planet is wonky.
     }
 
-    public Boolean deepSpace;
+    [SerializeField] Boolean deepSpace;
 
     public Boolean returnDeepSpace()
     {
         return deepSpace;
     }
+
+    
 }

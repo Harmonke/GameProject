@@ -1,7 +1,7 @@
 using Unity.Mathematics;
 using UnityEngine;
 
-public class RelativePlanetMovement : MonoBehaviour
+public class PlanetMovement : MonoBehaviour
 {
     public GameObject player;
     GetPlanet getPlanet;
@@ -14,15 +14,18 @@ public class RelativePlanetMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
+
+    [SerializeField] Vector3 velocity;
     // Update is called once per frame
     void Update()
     {
         applyMovement();
+        
     }
 
 
 
-    Vector3 ReturnOrbit()
+    public Vector3 ReturnOrbit()
     {
         Vector3 center = new Vector3(0f, 0f, 0f);
 
@@ -40,6 +43,8 @@ public class RelativePlanetMovement : MonoBehaviour
     {
         rb.MovePosition(transform.position + ReturnOrbit() * -1f);
     }
+
+    
     
 
     

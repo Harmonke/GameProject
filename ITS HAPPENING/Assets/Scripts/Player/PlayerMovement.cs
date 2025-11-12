@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     GameObject inputObject;
     Rigidbody rb;
     Inputs inputFile;
+    GetPlanet getPlanet;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -17,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
     {
         inputObject = GameObject.FindWithTag("InputObject");
         inputFile = inputObject.GetComponent<Inputs>();
+        getPlanet = GetComponent<GetPlanet>();
         rb = GetComponent<Rigidbody>();
     }
 
@@ -88,11 +90,17 @@ public class PlayerMovement : MonoBehaviour
         return jumpForce;
     }
 
+    //Applies the planets velocity on top of the players velocity.
+    public void ApplyPlanetVelocity()
+    {
+        rb.MovePosition(rb.position + getPlanet.ReturnPlanetDelta() * -1f);
+    }
+
     public void ApplyMovement()
     {
         Vector3 movementForce = CalculateMovement();
         Vector3 jumpForce = CalculateJumpForce();
-        rb.AddForce(movementForce, ForceMode.Force);
+        rb.AddForce(movementForce, ForceMode.Force); 
         rb.AddForce(jumpForce, ForceMode.Impulse);
 
     }
