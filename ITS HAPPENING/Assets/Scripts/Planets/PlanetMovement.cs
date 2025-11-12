@@ -44,6 +44,11 @@ public class PlanetMovement : MonoBehaviour
         rb.MovePosition(transform.position + ReturnOrbit() * -1f);
     }
 
+    public Vector3 PlanetVelocity()
+    {
+        return rb.linearVelocity;
+    }
+
     
     
 

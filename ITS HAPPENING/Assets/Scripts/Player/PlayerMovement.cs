@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody rb;
     Inputs inputFile;
     GetPlanet getPlanet;
+    Vector3 oldVelocity;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -20,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
         inputFile = inputObject.GetComponent<Inputs>();
         getPlanet = GetComponent<GetPlanet>();
         rb = GetComponent<Rigidbody>();
+        oldVelocity = Vector3.zero;
     }
 
     // FixedUpdate is called once per set amount of time (for physics related stuff like moving).
@@ -93,7 +95,8 @@ public class PlayerMovement : MonoBehaviour
     //Applies the planets velocity on top of the players velocity.
     public void ApplyPlanetVelocity()
     {
-        rb.MovePosition(rb.position + getPlanet.ReturnPlanetDelta() * -1f);
+        rb.linearVelocity = oldVelocity + getPlanet.ReturnPlanetVelocity();
+        oldVelocity = rb.linearVelocity - getPlanet.ReturnPlanetVelocity();
     }
 
     public void ApplyMovement()
