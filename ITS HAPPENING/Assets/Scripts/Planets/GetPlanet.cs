@@ -10,7 +10,9 @@ public class GetPlanet : MonoBehaviour
     public GameObject findDeepSpace;
     private Planet planet;
 
-    [SerializeField] Planet[] gravityPlanets;
+    GameObject[] planets;
+    Planet[] gravityPlanets;
+
 
     //This game object is the game object that every other planet orbits.
     
@@ -24,7 +26,14 @@ public class GetPlanet : MonoBehaviour
         //Finds the Planet object/script within the Planet object.
         planet = findDeepSpace.GetComponent<Planet>();
 
-        
+        planets = GameObject.FindGameObjectsWithTag("Planet");
+        gravityPlanets = new Planet[planets.Length];
+        for (int i = 0; i < planets.Length; i += 1)
+        {
+            gravityPlanets[i] = planets[i].GetComponent<Planet>();
+        }
+
+
         
     }
 
