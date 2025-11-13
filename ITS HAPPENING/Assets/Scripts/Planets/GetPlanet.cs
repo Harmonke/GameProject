@@ -37,19 +37,19 @@ public class GetPlanet : MonoBehaviour
         
     }
 
-    Vector3 planetVelocity;
+    PlanetMovement planetMovement;
     void OnTriggerEnter(Collider other)
     {
         if (other.tag == "GravityCollider")
         {
             planet = other.GetComponentInParent<Planet>();
-            planetVelocity = other.GetComponentInParent<PlanetMovement>().PlanetVelocity();
+            planetMovement = other.GetComponentInParent<PlanetMovement>();
         }
     }
 
     public Vector3 ReturnPlanetVelocity()
     {
-        return planetVelocity;
+        return planetMovement.PlanetVelocity();
     }
 
     

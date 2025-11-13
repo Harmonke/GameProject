@@ -53,6 +53,7 @@ public class PlayerScript : MonoBehaviour
         {
             applyMovement();
             gravity.ApplyPlanetGravity();
+            
         }
     }
 

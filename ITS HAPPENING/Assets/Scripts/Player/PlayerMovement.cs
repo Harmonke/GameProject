@@ -92,11 +92,14 @@ public class PlayerMovement : MonoBehaviour
         return jumpForce;
     }
 
+    [SerializeField] Vector3 planetVelocity;
     //Applies the planets velocity on top of the players velocity.
     public void ApplyPlanetVelocity()
     {
-        rb.linearVelocity = oldVelocity + getPlanet.ReturnPlanetVelocity();
-        oldVelocity = rb.linearVelocity - getPlanet.ReturnPlanetVelocity();
+        planetVelocity = getPlanet.ReturnPlanetVelocity();
+        rb.linearVelocity = planetVelocity;
+
+
     }
 
     public void ApplyMovement()

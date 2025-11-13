@@ -17,7 +17,7 @@ public class PlanetMovement : MonoBehaviour
 
     [SerializeField] Vector3 velocity;
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         applyMovement();
         
@@ -44,9 +44,11 @@ public class PlanetMovement : MonoBehaviour
         rb.MovePosition(transform.position + ReturnOrbit() * -1f);
     }
 
+    [SerializeField] Vector3 planetVelocity;
     public Vector3 PlanetVelocity()
     {
-        return rb.linearVelocity;
+        planetVelocity = rb.GetPointVelocity(transform.position);
+        return planetVelocity;
     }
 
     
