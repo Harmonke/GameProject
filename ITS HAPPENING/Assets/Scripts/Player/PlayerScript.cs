@@ -86,7 +86,8 @@ public class PlayerScript : MonoBehaviour
     {
         if (playerState.OnPlanet())
         {
-            playerMovement.ApplyPlanetVelocity();
+            //playerMovement.ApplyPlanetVelocity();
+            playerMovement.ApplyPlanetPosition();
             playerMovement.ApplyMovement();
             playerMovement.SetLinearDamping();
         }

@@ -21,7 +21,8 @@ public class PlayerMovement : MonoBehaviour
         inputFile = inputObject.GetComponent<Inputs>();
         getPlanet = GetComponent<GetPlanet>();
         rb = GetComponent<Rigidbody>();
-        oldVelocity = Vector3.zero;
+        oldPlanetPos = new Vector3(1347f, 0f, 0f);
+
     }
 
     // FixedUpdate is called once per set amount of time (for physics related stuff like moving).
@@ -90,6 +91,14 @@ public class PlayerMovement : MonoBehaviour
         }
 
         return jumpForce;
+    }
+
+    Vector3 oldPlanetPos;
+    public void ApplyPlanetPosition()
+    {
+
+        rb.MovePosition(rb.position + (getPlanet.PlanetPosition() - oldPlanetPos)) ;
+        oldPlanetPos = getPlanet.PlanetPosition();
     }
 
     [SerializeField] Vector3 planetVelocity;

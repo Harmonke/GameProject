@@ -47,6 +47,13 @@ public class GetPlanet : MonoBehaviour
         }
     }
 
+    public Vector3 PlanetPosition()
+    {
+        return planet.returnPosition();
+    }
+
+    
+
     public Vector3 ReturnPlanetVelocity()
     {
         return planetMovement.PlanetVelocity();
