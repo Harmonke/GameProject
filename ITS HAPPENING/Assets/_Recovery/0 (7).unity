@@ -152,7 +152,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RelativePlanetMovement
   player: {fileID: 0}
   velocity: {x: 0, y: 0, z: 0}
-  orbitSpeed: 0
+  planetVelocity: {x: 0, y: 0, z: 0}
 --- !u!135 &55869683
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1025,7 +1025,7 @@ Rigidbody:
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!114 &778780819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1040,7 +1040,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlanetMovement
   player: {fileID: 0}
   velocity: {x: 0, y: 0, z: 0}
-  orbitSpeed: -10
+  planetVelocity: {x: 0, y: 0, z: 0}
 --- !u!114 &778780820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3273,7 +3273,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 1
   m_Constraints: 112
-  m_CollisionDetection: 1
+  m_CollisionDetection: 2
 --- !u!114 &1937401180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3318,6 +3318,7 @@ MonoBehaviour:
   movementSpeed: 100
   onGround: 0
   jumpMovementForce: 40
+  planetVelocity: {x: 0, y: 0, z: 0}
 --- !u!114 &1937401183
 MonoBehaviour:
   m_ObjectHideFlags: 0

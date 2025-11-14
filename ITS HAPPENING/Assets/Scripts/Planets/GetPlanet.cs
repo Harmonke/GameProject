@@ -12,7 +12,7 @@ public class GetPlanet : MonoBehaviour
 
     GameObject[] planets;
     Planet[] gravityPlanets;
-
+    Rigidbody rb;
 
     //This game object is the game object that every other planet orbits.
     
@@ -25,7 +25,7 @@ public class GetPlanet : MonoBehaviour
         findDeepSpace = GameObject.FindWithTag("DeepSpace");
         //Finds the Planet object/script within the Planet object.
         planet = findDeepSpace.GetComponent<Planet>();
-
+        rb = GetComponent<Rigidbody>();
         planets = GameObject.FindGameObjectsWithTag("Planet");
         gravityPlanets = new Planet[planets.Length];
         for (int i = 0; i < planets.Length; i += 1)
@@ -49,15 +49,12 @@ public class GetPlanet : MonoBehaviour
 
     public Vector3 PlanetPosition()
     {
-        return planet.returnPosition();
+        return planetMovement.PlanetDelta();
     }
 
     
 
-    public Vector3 ReturnPlanetVelocity()
-    {
-        return planetMovement.PlanetVelocity();
-    }
+   
 
     
     void OnTriggerExit(Collider other)
@@ -77,8 +74,9 @@ public class GetPlanet : MonoBehaviour
             if (!firstContact)
             {
                 resetBaseRotation = true;
+                rb.linearVelocity = Vector3.zero;
             }
-
+            
             firstContact = true;
             
 

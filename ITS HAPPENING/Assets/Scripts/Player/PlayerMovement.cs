@@ -21,7 +21,7 @@ public class PlayerMovement : MonoBehaviour
         inputFile = inputObject.GetComponent<Inputs>();
         getPlanet = GetComponent<GetPlanet>();
         rb = GetComponent<Rigidbody>();
-        oldPlanetPos = new Vector3(1347f, 0f, 0f);
+        
 
     }
 
@@ -66,7 +66,7 @@ public class PlayerMovement : MonoBehaviour
     //Checks if player is grounded
     bool CheckGrounded()
     {
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), 1.1f))
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), 1.4f))
         {
             StartCoroutine(OnGroundPause());
         }
@@ -93,23 +93,15 @@ public class PlayerMovement : MonoBehaviour
         return jumpForce;
     }
 
-    Vector3 oldPlanetPos;
+    
     public void ApplyPlanetPosition()
     {
-
-        rb.MovePosition(rb.position + (getPlanet.PlanetPosition() - oldPlanetPos)) ;
-        oldPlanetPos = getPlanet.PlanetPosition();
+        
+        rb.position += getPlanet.PlanetPosition() ;
+        
     }
 
-    [SerializeField] Vector3 planetVelocity;
-    //Applies the planets velocity on top of the players velocity.
-    public void ApplyPlanetVelocity()
-    {
-        planetVelocity = getPlanet.ReturnPlanetVelocity();
-        rb.linearVelocity = planetVelocity;
-
-
-    }
+   
 
     public void ApplyMovement()
     {

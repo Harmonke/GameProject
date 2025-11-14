@@ -3,10 +3,12 @@ using UnityEngine;
 public class PlayerState : MonoBehaviour
 {
     GetPlanet getPlanet;
+    Rigidbody rb;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         getPlanet = GetComponent<GetPlanet>();
+        rb = GetComponent<Rigidbody>();
     }
 
     
@@ -47,4 +49,19 @@ public class PlayerState : MonoBehaviour
             return false;
         }
     }
+
+    public bool Grounded()
+    {
+        if (Physics.Raycast(rb.position, transform.TransformDirection(Vector3.down), 1.4f))
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    
+    
 }

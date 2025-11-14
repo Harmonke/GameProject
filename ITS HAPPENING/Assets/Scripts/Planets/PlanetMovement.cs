@@ -39,16 +39,21 @@ public class PlanetMovement : MonoBehaviour
         return tangent;
     }
 
+    [SerializeField] float orbitSpeed;
+    Vector3 lastDelta;
     void applyMovement()
     {
-        rb.MovePosition(transform.position + ReturnOrbit() * -1f);
+        Vector3 computeDelta = ReturnOrbit() * orbitSpeed * Time.fixedDeltaTime;
+
+        rb.MovePosition(rb.position + computeDelta);
+
+        lastDelta = computeDelta;
     }
 
-    [SerializeField] Vector3 planetVelocity;
-    public Vector3 PlanetVelocity()
+    
+    public Vector3 PlanetDelta()
     {
-        planetVelocity = rb.GetPointVelocity(transform.position);
-        return planetVelocity;
+        return lastDelta;
     }
 
     

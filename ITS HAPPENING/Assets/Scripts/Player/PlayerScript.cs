@@ -51,13 +51,23 @@ public class PlayerScript : MonoBehaviour
     {
         if (!spaceShipInteract.returnPlayerSitting())
         {
+            
+            if (playerState.OnPlanet())
+            {
+                //playerMovement.ApplyPlanetVelocity();
+                playerMovement.ApplyPlanetPosition();
+            }
             applyMovement();
-            gravity.ApplyPlanetGravity();
+            if (playerState.Grounded())
+            {
+                gravity.ApplyPlanetGravity();
+            }
+            
             
         }
     }
 
-    void Update()
+    void LateUpdate()
     {
         if (!spaceShipInteract.returnPlayerSitting())
         {
@@ -87,7 +97,6 @@ public class PlayerScript : MonoBehaviour
         if (playerState.OnPlanet())
         {
             //playerMovement.ApplyPlanetVelocity();
-            playerMovement.ApplyPlanetPosition();
             playerMovement.ApplyMovement();
             playerMovement.SetLinearDamping();
         }
