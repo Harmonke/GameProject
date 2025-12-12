@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Animations;
 
 public class GetPlanet : MonoBehaviour
 {
@@ -38,7 +39,6 @@ public class GetPlanet : MonoBehaviour
     }
 
     Boolean firstContact;
-    bool applyGravity;
     Boolean resetBaseRotation;
     
     PlanetMovement planetMovement;
@@ -46,7 +46,7 @@ public class GetPlanet : MonoBehaviour
     {
         if (other.tag == "GravityCollider")
         {
-            applyGravity = false;
+            
             planet = other.GetComponentInParent<Planet>();
             planetMovement = other.GetComponentInParent<PlanetMovement>();
         }
@@ -57,6 +57,8 @@ public class GetPlanet : MonoBehaviour
         {
             if (!firstContact)
             {
+                Planet parentPlanet = other.GetComponentInParent<Planet>();
+                gameObject.transform.parent = parentPlanet.transform;
                 resetBaseRotation = true;
                 rb.linearVelocity = Vector3.zero;
             }
@@ -64,14 +66,17 @@ public class GetPlanet : MonoBehaviour
             
             firstContact = true;
         }
-        
-        if (other.gameObject.tag == "DeepSpace")
+            
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "GravityCollider")
         {
+            gameObject.transform.parent = null;
             planet = findDeepSpace.GetComponent<Planet>();
-            applyGravity = false;
             firstContact = false;
         }
-            
     }
 
     public Vector3 PlanetPosition()
