@@ -5,13 +5,13 @@ public class PlanetMovement : MonoBehaviour
 {
     public GameObject player;
     GetPlanet getPlanet;
-    Rigidbody rb;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         player = GameObject.FindWithTag("Player");
         getPlanet = player.GetComponent<GetPlanet>();
-        rb = GetComponent<Rigidbody>();
+        
     }
 
 
@@ -45,7 +45,7 @@ public class PlanetMovement : MonoBehaviour
     {
         Vector3 computeDelta = ReturnOrbit() * orbitSpeed * Time.fixedDeltaTime;
 
-        rb.MovePosition(rb.position + computeDelta);
+        transform.position += computeDelta;
 
         lastDelta = computeDelta;
     }

@@ -12,6 +12,7 @@ TagManager:
   - Interactable
   - InputObject
   - SolarSystem
+  - FirstContact
   layers:
   - Default
   - TransparentFX

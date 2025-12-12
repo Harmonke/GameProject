@@ -37,39 +37,23 @@ public class GetPlanet : MonoBehaviour
         
     }
 
+    Boolean firstContact;
+    bool applyGravity;
+    Boolean resetBaseRotation;
+    
     PlanetMovement planetMovement;
     void OnTriggerEnter(Collider other)
     {
         if (other.tag == "GravityCollider")
         {
+            applyGravity = false;
             planet = other.GetComponentInParent<Planet>();
             planetMovement = other.GetComponentInParent<PlanetMovement>();
         }
-    }
 
-    public Vector3 PlanetPosition()
-    {
-        return planetMovement.PlanetDelta();
-    }
+       
 
-    
-
-   
-
-    
-    void OnTriggerExit(Collider other)
-    {
-        planet = findDeepSpace.GetComponent<Planet>();
-        
-        firstContact = false;
-    }
-
-    Boolean firstContact;
-    Boolean resetBaseRotation;
-    
-    void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "Planet")
+        if (other.gameObject.tag == "FirstContact")
         {
             if (!firstContact)
             {
@@ -77,12 +61,30 @@ public class GetPlanet : MonoBehaviour
                 rb.linearVelocity = Vector3.zero;
             }
             
-            firstContact = true;
             
+            firstContact = true;
+        }
+        
+        if (other.gameObject.tag == "DeepSpace")
+        {
+            planet = findDeepSpace.GetComponent<Planet>();
+            applyGravity = false;
+            firstContact = false;
+        }
+            
+    }
+
+    public Vector3 PlanetPosition()
+    {
+        return planetMovement.PlanetDelta();
+    }
+
+   
+   
+        
 
             
-        }
-    }
+      
 
 
 

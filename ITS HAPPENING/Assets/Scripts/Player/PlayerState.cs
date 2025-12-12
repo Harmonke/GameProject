@@ -27,7 +27,7 @@ public class PlayerState : MonoBehaviour
 
     public bool InAtmosphere()
     {
-        if (!getPlanet.returnDeepSpace() && getPlanet.returnFirstContact())
+        if (!getPlanet.returnDeepSpace() && !getPlanet.returnFirstContact())
         {
             return true;
         }
@@ -50,17 +50,7 @@ public class PlayerState : MonoBehaviour
         }
     }
 
-    public bool Grounded()
-    {
-        if (Physics.Raycast(rb.position, transform.TransformDirection(Vector3.down), 1.4f))
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-    }
+    
 
     
     
