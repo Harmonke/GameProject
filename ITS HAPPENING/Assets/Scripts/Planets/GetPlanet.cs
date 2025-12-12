@@ -96,23 +96,43 @@ public class GetPlanet : MonoBehaviour
     //Gets position from planet script.
     public Vector3[] PlanetPositions()
     {
-        Vector3[] planetPositions = new Vector3[gravityPlanets.Length];
-        for (int i = 0; i < gravityPlanets.Length; i += 1)
+        if (!firstContact)
         {
-            planetPositions[i] = gravityPlanets[i].returnPosition();
+            Vector3[] planetPositions = new Vector3[gravityPlanets.Length];
+            for (int i = 0; i < gravityPlanets.Length; i += 1)
+            {
+                planetPositions[i] = gravityPlanets[i].returnPosition();
+            }
+            return planetPositions;
         }
-        return planetPositions;
+        else
+        {
+            Vector3[] planetPosition = new Vector3[1];
+            planetPosition[0] = planet.returnPosition(); 
+            return planetPosition;
+        }
+        
     }
 
     //Gets gravityconstant from planet script.
     public float[] PlanetGravityConstants()
     {
-        float[] planetGravityConstants = new float[gravityPlanets.Length];
-        for (int i = 0; i < gravityPlanets.Length; i += 1)
+        if (!firstContact)
         {
-            planetGravityConstants[i] = gravityPlanets[i].returnGravityConstant();
+            float[] planetGravityConstants = new float[gravityPlanets.Length];
+            for (int i = 0; i < gravityPlanets.Length; i += 1)
+            {
+                planetGravityConstants[i] = gravityPlanets[i].returnGravityConstant();
+            }
+            return planetGravityConstants;
         }
-        return planetGravityConstants;
+        else
+        {
+            float[] planetGravityConstant = new float[1];
+            planetGravityConstant[0] = planet.returnGravityConstant(); 
+            return planetGravityConstant;
+        }
+        
         
     }
 
@@ -120,12 +140,22 @@ public class GetPlanet : MonoBehaviour
     //Gets radius from planet script.
     public float[] PlanetRadiuses()
     {
-        float[] planetRadiuses = new float[gravityPlanets.Length];
-        for (int i = 0; i < gravityPlanets.Length; i += 1)
+        if (!firstContact)
         {
-            planetRadiuses[i] = gravityPlanets[i].returnRadius();
+            float[] planetRadiuses = new float[gravityPlanets.Length];
+            for (int i = 0; i < gravityPlanets.Length; i += 1)
+            {
+                planetRadiuses[i] = gravityPlanets[i].returnRadius();
+            }
+            return planetRadiuses;
         }
-        return planetRadiuses;
+        else
+        {
+            float[] planetRadius = new float[1];
+            planetRadius[0] = planet.returnGravityConstant(); 
+            return planetRadius;
+        }
+        
         
     }
 
