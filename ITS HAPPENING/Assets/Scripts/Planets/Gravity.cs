@@ -18,6 +18,7 @@ public class Gravity : MonoBehaviour
     
     [SerializeField] float groundPlayerDistance;
     [SerializeField] Vector3 gravity;
+    [SerializeField] float gravityFallOffConstant;
     
 
     //Calculates the planets surface position to use it to use the difference between the player and surface position along with the planets gravity constant to calc gravity.
@@ -42,12 +43,12 @@ public class Gravity : MonoBehaviour
 
             //Calculates gravity force based on the distance between the planet surface and the player.
             groundPlayerDistance = Vector3.Distance(surfacePoint, playerPosition);
-            float gravityForce = gravityConstant / Mathf.Pow(groundPlayerDistance, 0.4f);
+            float gravityForce = gravityConstant / Mathf.Pow(groundPlayerDistance , gravityFallOffConstant);
 
             //Calculates and applies gravity based on the mass of the object.
             gravity += -coreToPlayerDirection * gravityForce;
         }
-        rb.AddForce(gravity, ForceMode.Force);
+        rb.AddForce(gravity, ForceMode.Acceleration);
         
     }
 

@@ -88,6 +88,7 @@ public class PlayerMovement : MonoBehaviour
         if (CheckGrounded())
         {
             jumpForce = transform.up * jumpMovementForce * jumpInput;
+            Debug.Log(jumpForce);
         }
 
         return jumpForce;

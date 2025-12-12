@@ -157,7 +157,7 @@ public class GetPlanet : MonoBehaviour
         else
         {
             float[] planetRadius = new float[1];
-            planetRadius[0] = planet.returnGravityConstant(); 
+            planetRadius[0] = planet.returnRadius(); 
             return planetRadius;
         }
         

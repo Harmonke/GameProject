@@ -528,59 +528,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 778780826}
   m_SourcePrefab: {fileID: 100100000, guid: 8299b5c499bb85f4ea8934d0cd66e888, type: 3}
---- !u!1 &517829760
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 517829761}
-  - component: {fileID: 517829762}
-  m_Layer: 0
-  m_Name: GravityCollider
-  m_TagString: GravityCollider
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &517829761
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 517829760}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.296785, y: 0, z: 0}
-  m_LocalScale: {x: 0.2480651, y: 0.24806508, z: 0.24806508}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 55869686}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &517829762
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 517829760}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 1.62
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &522625149
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2326,7 +2273,7 @@ PrefabInstance:
       addedObject: {fileID: 712825874}
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 361656de2a4f74d44bc5c33ff13ea429, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 517829761}
+      addedObject: {fileID: 1721869264}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 361656de2a4f74d44bc5c33ff13ea429, type: 3}
       insertIndex: -1
@@ -2646,6 +2593,59 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -5495902117074765545, guid: 8299b5c499bb85f4ea8934d0cd66e888, type: 3}
+--- !u!1 &1721869263
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1721869264}
+  - component: {fileID: 1721869265}
+  m_Layer: 0
+  m_Name: GravityCollider
+  m_TagString: GravityCollider
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1721869264
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1721869263}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 55869686}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &1721869265
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1721869263}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1805567598
 GameObject:
   m_ObjectHideFlags: 0
