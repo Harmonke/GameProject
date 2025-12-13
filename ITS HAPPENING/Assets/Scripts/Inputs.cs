@@ -66,10 +66,20 @@ public class Inputs : MonoBehaviour
         }
     }
 
-    float moveUp;
+    
     public float MoveUp()
     {
-        moveUp = Input.GetAxisRaw("Jump");
+        float moveUp;
+        if (Input.GetButtonDown("Jump"))
+        {
+            moveUp = 1f;
+            Debug.Log("pressed SpaceBar");
+        }
+        else
+        {
+            moveUp = 0f;
+        }
+        
         return moveUp;
     }
 

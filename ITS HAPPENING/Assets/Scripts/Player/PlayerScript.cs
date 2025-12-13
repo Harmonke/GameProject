@@ -51,7 +51,7 @@ public class PlayerScript : MonoBehaviour
     {
         if (!spaceShipInteract.returnPlayerSitting())
         {
-            
+            gravity.ApplyPlanetGravity();
             if (playerState.OnPlanet())
             {
                 applyMovement();
@@ -59,7 +59,7 @@ public class PlayerScript : MonoBehaviour
             }
             applyMovement();
             
-            gravity.ApplyPlanetGravity();
+            
             
             
             

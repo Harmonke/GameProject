@@ -12,7 +12,7 @@ public class PlayerMovement : MonoBehaviour
     Inputs inputFile;
     GetPlanet getPlanet;
     Vector3 oldVelocity;
-
+    [SerializeField] bool canJump;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -21,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
         inputFile = inputObject.GetComponent<Inputs>();
         getPlanet = GetComponent<GetPlanet>();
         rb = GetComponent<Rigidbody>();
+        canJump = true;
         
 
     }
@@ -52,31 +53,37 @@ public class PlayerMovement : MonoBehaviour
         return movementForce;
     }
     
-    public bool onGround;
-    //cooldowns to make consecutive jumps slower.
-    IEnumerator OnGroundPause()
+    [SerializeField] float jumpCooldown;
+   IEnumerator JumpCooldownCoroutine()
     {
-
-        yield return new WaitForSeconds(0.1f); // 100 ms delay — adjust as needed
+        
+        yield return new WaitForSeconds(jumpCooldown); // Wait for the set time
         onGround = true;
         
     }
-
-
+    
+    [SerializeField] bool onGround;
     //Checks if player is grounded
     bool CheckGrounded()
     {
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), 1.4f))
+        
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), 1.1f))
         {
-            StartCoroutine(OnGroundPause());
+            
+            onGround = true;
+            
         }
         else
         {
             onGround = false;
+            canJump = true;
+            
         }
         return onGround;
 
     }
+
+    
 
 
     [SerializeField] float jumpMovementForce;
@@ -85,27 +92,23 @@ public class PlayerMovement : MonoBehaviour
     {
         float jumpInput = inputFile.MoveUp();
         Vector3 jumpForce = new Vector3(0f, 0f, 0f);
-        if (CheckGrounded())
+        if (CheckGrounded() && canJump)
         {
             jumpForce = transform.up * jumpMovementForce * jumpInput;
-            Debug.Log(jumpForce);
+            if (jumpForce != Vector3.zero)
+            {
+                canJump = false;
+            }
+            
         }
 
         return jumpForce;
     }
 
-    
-    public void ApplyPlanetPosition()
-    {
-        
-        rb.position += getPlanet.PlanetPosition() ;
-        
-    }
-
-   
 
     public void ApplyMovement()
     {
+        
         Vector3 movementForce = CalculateMovement();
         Vector3 jumpForce = CalculateJumpForce();
         rb.AddForce(movementForce, ForceMode.Force); 

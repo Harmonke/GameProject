@@ -42,8 +42,8 @@ public class Gravity : MonoBehaviour
             Vector3 surfacePoint = planetPosition + coreToPlayerDirection * planetRadius;
 
             //Calculates gravity force based on the distance between the planet surface and the player.
-            groundPlayerDistance = Vector3.Distance(surfacePoint, playerPosition);
-            float gravityForce = gravityConstant / Mathf.Pow(groundPlayerDistance , gravityFallOffConstant);
+            groundPlayerDistance = planetPlayerDistance.magnitude;
+            float gravityForce = gravityConstant / Mathf.Pow(planetPlayerDistance.magnitude , gravityFallOffConstant);
 
             //Calculates and applies gravity based on the mass of the object.
             gravity += -coreToPlayerDirection * gravityForce;
