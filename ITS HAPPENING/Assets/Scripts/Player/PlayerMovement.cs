@@ -26,10 +26,15 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
+    void Update()
+    {
+        GetJumpInput();
+    }
     // FixedUpdate is called once per set amount of time (for physics related stuff like moving).
     void FixedUpdate()
     {
         LockMouse();
+        
     }
 
 
@@ -53,21 +58,13 @@ public class PlayerMovement : MonoBehaviour
         return movementForce;
     }
     
-    [SerializeField] float jumpCooldown;
-   IEnumerator JumpCooldownCoroutine()
-    {
-        
-        yield return new WaitForSeconds(jumpCooldown); // Wait for the set time
-        onGround = true;
-        
-    }
     
     [SerializeField] bool onGround;
     //Checks if player is grounded
     bool CheckGrounded()
     {
         
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), 1.1f))
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), 1.2f))
         {
             
             onGround = true;
@@ -83,14 +80,21 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    
-
+    int jumpInput;
+    //This is seperate because if you press space outside of a physics tick, the input wont go through.
+    void GetJumpInput()
+    {
+        if (inputFile.MoveUp() == 1)
+        {
+            jumpInput = 1;
+        }
+    }
 
     [SerializeField] float jumpMovementForce;
     //Applies jump force based on up direction.
     public Vector3 CalculateJumpForce()
     {
-        float jumpInput = inputFile.MoveUp();
+        
         Vector3 jumpForce = new Vector3(0f, 0f, 0f);
         if (CheckGrounded() && canJump)
         {
@@ -98,9 +102,11 @@ public class PlayerMovement : MonoBehaviour
             if (jumpForce != Vector3.zero)
             {
                 canJump = false;
+                
             }
             
         }
+        jumpInput = 0;
 
         return jumpForce;
     }
